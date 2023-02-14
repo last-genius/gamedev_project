@@ -1,54 +1,124 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Cube.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://shaders/simulation.shader" type="Shader" id=1]
+[ext_resource path="res://shaders/render.shader" type="Shader" id=2]
 
-[sub_resource type="BoxShape" id=1]
-extents = Vector3( 20, 1, 20 )
+[sub_resource type="ViewportTexture" id=12]
+viewport_path = NodePath("CollisionViewport")
 
-[sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0, 0.678431, 0.0431373, 1 )
+[sub_resource type="ViewportTexture" id=11]
+viewport_path = NodePath("SimulationViewport")
 
-[sub_resource type="CubeMesh" id=3]
-material = SubResource( 2 )
-size = Vector3( 40, 2, 40 )
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/phase = 0.2
+shader_param/attenuation = 0.999
+shader_param/deltaUV = 3.0
+shader_param/simulation_texture = SubResource( 11 )
+shader_param/collision_texture = SubResource( 12 )
+
+[sub_resource type="ViewportTexture" id=19]
+viewport_path = NodePath("SimulationViewport")
+
+[sub_resource type="ShaderMaterial" id=8]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/sim_tex = SubResource( 19 )
+
+[sub_resource type="PlaneMesh" id=2]
+size = Vector2( 20, 20 )
+subdivide_width = 500
+subdivide_depth = 500
+
+[sub_resource type="SphereMesh" id=13]
+
+[sub_resource type="SpatialMaterial" id=15]
+flags_unshaded = true
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SphereMesh" id=16]
+material = SubResource( 15 )
+
+[sub_resource type="Animation" id=17]
+resource_name = "Ball Loop"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 3, 0 ), Vector3( 0, -1, 0 ), Vector3( 0, 3, 0 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 3, 0 ) ]
+}
 
 [node name="Main" type="Spatial"]
 
-[node name="Floor" type="StaticBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Floor"]
-shape = SubResource( 1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Floor"]
-mesh = SubResource( 3 )
-
-[node name="Spatial" type="Spatial" parent="."]
-transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 0, 0 )
-
-[node name="DirectionalLight" type="DirectionalLight" parent="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20 )
-shadow_enabled = true
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8, 8 )
 
 [node name="Camera Pivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0 )
 
 [node name="Camera" type="Camera" parent="Camera Pivot"]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -20 )
+transform = Transform( 9.27258e-08, -0.707107, 0.707107, 9.27258e-08, 0.707107, 0.707107, -1, 0, 1.31134e-07, 12, 15, 0 )
+cull_mask = 524287
+current = true
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
+[node name="CollisionViewport" type="Viewport" parent="."]
+size = Vector2( 512, 512 )
 
-[node name="Cubes Pivot" type="Spatial" parent="."]
+[node name="Camera" type="Camera" parent="CollisionViewport"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -10, 0 )
+cull_mask = 524288
+projection = 1
+size = 20.0
+far = 10.0
 
-[node name="Cube" parent="Cubes Pivot" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, 2 )
+[node name="SimulationViewport" type="Viewport" parent="."]
+size = Vector2( 512, 512 )
+hdr = false
+render_target_clear_mode = 2
+render_target_update_mode = 3
 
-[node name="Cube2" parent="Cubes Pivot" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, 3 )
+[node name="ColorRect" type="ColorRect" parent="SimulationViewport"]
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 
-[node name="Cube4" parent="Cubes Pivot" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 6, 0 )
+[node name="Water" type="MeshInstance" parent="."]
+material_override = SubResource( 8 )
+mesh = SubResource( 2 )
 
-[node name="Cube3" parent="Cubes Pivot" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 2, -3 )
+[node name="Ball" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ball"]
+mesh = SubResource( 13 )
+
+[node name="WaterCollision" type="MeshInstance" parent="Ball"]
+layers = 524288
+mesh = SubResource( 16 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ball"]
+autoplay = "Ball Loop"
+"anims/Ball Loop" = SubResource( 17 )
+anims/RESET = SubResource( 18 )
