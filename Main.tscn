@@ -21,13 +21,17 @@ shader_param/deltaUV = 2.3
 shader_param/simulation_texture = SubResource( 11 )
 shader_param/collision_texture = SubResource( 12 )
 
-[sub_resource type="ViewportTexture" id=19]
+[sub_resource type="ViewportTexture" id=23]
 viewport_path = NodePath("SimulationViewport")
 
 [sub_resource type="ShaderMaterial" id=8]
 resource_local_to_scene = true
 shader = ExtResource( 2 )
-shader_param/sim_tex = SubResource( 19 )
+shader_param/amplitude = 1.0
+shader_param/murkiness = 0.25
+shader_param/shallow_water_color = Vector3( 0.27, 0.682, 1 )
+shader_param/deep_water_color = Vector3( 0, 0.0823, 0.34 )
+shader_param/sim_tex = SubResource( 23 )
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 20, 20 )
@@ -115,6 +119,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
+[node name="CSGBox" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0 )
+width = 22.0
+height = 12.0
+depth = 22.0
+
+[node name="CSGBox2" type="CSGBox" parent="CSGBox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+operation = 2
+width = 20.0
+height = 10.0
+depth = 20.0
+
 [node name="Water" type="MeshInstance" parent="."]
 material_override = SubResource( 8 )
 mesh = SubResource( 2 )
@@ -140,4 +157,5 @@ texture = SubResource( 20 )
 
 [node name="DebugSimulation" type="Sprite3D" parent="."]
 transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, -8.7733 )
+visible = false
 texture = SubResource( 21 )
