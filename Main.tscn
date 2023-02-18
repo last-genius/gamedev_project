@@ -1,7 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://shaders/simulation.shader" type="Shader" id=1]
 [ext_resource path="res://shaders/render.shader" type="Shader" id=2]
+
+[sub_resource type="Environment" id=22]
+background_mode = 1
 
 [sub_resource type="ViewportTexture" id=12]
 viewport_path = NodePath("CollisionViewport")
@@ -12,9 +15,9 @@ viewport_path = NodePath("SimulationViewport")
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
-shader_param/phase = 0.2
-shader_param/attenuation = 0.999
-shader_param/deltaUV = 3.0
+shader_param/phase = 0.18
+shader_param/attenuation = 0.995
+shader_param/deltaUV = 2.3
 shader_param/simulation_texture = SubResource( 11 )
 shader_param/collision_texture = SubResource( 12 )
 
@@ -71,6 +74,12 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 3, 0 ) ]
 }
 
+[sub_resource type="ViewportTexture" id=20]
+viewport_path = NodePath("CollisionViewport")
+
+[sub_resource type="ViewportTexture" id=21]
+viewport_path = NodePath("SimulationViewport")
+
 [node name="Main" type="Spatial"]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
@@ -89,6 +98,7 @@ size = Vector2( 512, 512 )
 [node name="Camera" type="Camera" parent="CollisionViewport"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -10, 0 )
 cull_mask = 524288
+environment = SubResource( 22 )
 projection = 1
 size = 20.0
 far = 10.0
@@ -103,6 +113,7 @@ render_target_update_mode = 3
 material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
 
 [node name="Water" type="MeshInstance" parent="."]
 material_override = SubResource( 8 )
@@ -122,3 +133,11 @@ mesh = SubResource( 16 )
 autoplay = "Ball Loop"
 "anims/Ball Loop" = SubResource( 17 )
 anims/RESET = SubResource( 18 )
+
+[node name="DebugCollision" type="Sprite3D" parent="."]
+transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, 11.2666 )
+texture = SubResource( 20 )
+
+[node name="DebugSimulation" type="Sprite3D" parent="."]
+transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, -8.7733 )
+texture = SubResource( 21 )
