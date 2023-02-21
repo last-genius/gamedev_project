@@ -43,7 +43,10 @@ func _physics_process(delta):
 		# Only move if we have < req_rotation to go
 		if movement_intensity > 0.01:
 			direction *= movement_intensity
+			
 			print(rad2deg(a.angle_to(b)), " | ", movement_intensity)
+			
+			# Speed us up if we are sprinting
 			if Input.is_action_pressed("sprint"):
 				direction *= shift_speed
 			else:
@@ -52,6 +55,7 @@ func _physics_process(delta):
 			velocity.x = direction.x
 			velocity.z = direction.z
 			
+			# If we are going straight, interpolate the velocity nicely
 			if movement_intensity > 0.99:
 				var interpolated = velocity.linear_interpolate(direction, interpolation_rate * delta)
 				velocity.x = interpolated.x

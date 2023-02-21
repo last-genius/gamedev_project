@@ -11,12 +11,18 @@ config_version=4
 [application]
 
 config/name="codename_pirate"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://scenes/ui_startscreen.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+MainLoader="*res://scripts/main_loader.gd"
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+theme/custom="res://assets/fonts/ui_theme.tres"
+theme/custom_font="res://assets/fonts/font.tres"
 "<<<<<<<HEAD[input]move_forward"={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"physical_scancode":0,"unicode":0,"echo":false,"script":null)

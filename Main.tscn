@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://shaders/simulation.shader" type="Shader" id=1]
 [ext_resource path="res://shaders/render.shader" type="Shader" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://materials/collision_red.material" type="Material" id=5]
 [ext_resource path="res://scripts/player_spawner.gd" type="Script" id=6]
 [ext_resource path="res://assets/ship_models/PirateShip.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Environment" id=22]
 background_mode = 1
@@ -93,7 +94,11 @@ transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0
 
 [node name="PlayerSpawner" type="Spatial" parent="."]
 script = ExtResource( 6 )
-ship_models = [ ExtResource( 3 ), ExtResource( 7 ) ]
+ship_models = {
+"Pirate Ship": ExtResource( 7 ),
+"Racing Boat": ExtResource( 3 )
+}
+selected_model = "Racing Boat"
 
 [node name="Camera Pivot" type="Spatial" parent="."]
 
@@ -144,6 +149,8 @@ depth = 20.0
 material_override = SubResource( 8 )
 mesh = SubResource( 2 )
 
+[node name="HUD" parent="." instance=ExtResource( 8 )]
+
 [node name="Ball" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 visible = false
@@ -169,3 +176,5 @@ texture = SubResource( 20 )
 transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, -8.7733 )
 visible = false
 texture = SubResource( 21 )
+
+[connection signal="model_changed" from="HUD" to="PlayerSpawner" method="_on_HUD_model_changed"]

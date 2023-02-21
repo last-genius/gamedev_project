@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/fonts/font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://scripts/ui_startscreen.gd" type="Script" id=2]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="Title" type="Label" parent="."]
+anchor_right = 1.0
+margin_top = 50.0
+custom_fonts/font = ExtResource( 1 )
+text = "WIP Pirate Game"
+align = 1
+
+[node name="StartButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -175.0
+margin_top = 50.0
+margin_right = 175.0
+margin_bottom = 44.5
+custom_fonts/font = ExtResource( 1 )
+text = "Start Game"
+
+[node name="OptionsButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = 150.0
+margin_right = 150.0
+margin_bottom = 44.5
+custom_fonts/font = ExtResource( 1 )
+text = "Options"
+
+[connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
