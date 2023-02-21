@@ -16,11 +16,6 @@ func _ready() -> void:
 	camera = get_node("/root/Main/Camera Pivot/Camera")
 
 
-static func _short_angle_dist(from, to):
-	var max_angle = PI * 2
-	var difference = fmod(to - from, max_angle)
-	return fmod(2 * difference, max_angle) - difference
-
 func _physics_process(delta):
 	var direction = Vector3.ZERO
 	var cam_basis = camera.global_transform.basis
@@ -53,9 +48,13 @@ func _physics_process(delta):
 				direction *= shift_speed
 			else:
 				direction *= speed
-				
-			var interpolated = velocity.linear_interpolate(direction, interpolation_rate * delta)
-			velocity.x = interpolated.x
-			velocity.z = interpolated.z
+			
+			velocity.x = direction.x
+			velocity.z = direction.z
+			
+			if movement_intensity > 0.99:
+				var interpolated = velocity.linear_interpolate(direction, interpolation_rate * delta)
+				velocity.x = interpolated.x
+				velocity.z = interpolated.z
 			
 			velocity = move_and_slide(velocity, Vector3.UP)

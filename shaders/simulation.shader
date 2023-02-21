@@ -5,7 +5,7 @@ uniform sampler2D collision_texture;
 
 uniform float phase = 0.18;
 uniform float attenuation = 0.995;
-uniform float deltaUV = 2.3;
+uniform float deltaUV = 3.0;
 
 void fragment() {
 	float dv = 1.0 / 512.0;
@@ -22,7 +22,7 @@ void fragment() {
 		
 	vec2 col_uv = vec2(UV.x, 1.0 - UV.y);
 	float col = texture(collision_texture, col_uv).r;
-	float prevCol = texture(simulation_texture, UV).b;
+	float prevCol = old_texture.b;
 	
 	if (col > 0.0 && prevCol == 0.0) {
         new_texture += col * 0.5;
