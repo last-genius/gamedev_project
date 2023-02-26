@@ -18,7 +18,7 @@ void fragment() {
 	float depth = exp(-d * murkiness);
 	
 	vec4 input = texture(sim_tex, UV);
-	/*
+	
 	vec3 duv = vec3(4.0 / 512.0, 4.0 / 512.0, 0);
 	float v1 = texture(sim_tex, UV - duv.xz).y;
 	float v2 = texture(sim_tex, UV + duv.xz).y;
@@ -26,7 +26,7 @@ void fragment() {
 	float v4 = texture(sim_tex, UV + duv.zy).y;
 	
 	vec3 normal = normalize(vec3(v1 - v2, v3 - v4, 0.3));
-	*/
+	
 	
 	/*
 	// An attempt at a refraction shader
@@ -34,9 +34,9 @@ void fragment() {
 	vec4 refracted_tex = texture(SCREEN_TEXTURE, new_normal);
 	ALBEDO = mix(refracted_tex.xyz, mixed_colors, 0.9); */
 	
-	//ALBEDO = mix(deep_water_color, shallow_water_color, depth);
-	ALBEDO = mix(mix(deep_water_color, shallow_water_color, depth), waves_color, input.r);
-	//NORMAL = normal;
+	ALBEDO = mix(deep_water_color, shallow_water_color, depth);
+	//ALBEDO = mix(mix(deep_water_color, shallow_water_color, depth), waves_color, input.r);
+	NORMAL = normal;
 }
 
 void vertex() {

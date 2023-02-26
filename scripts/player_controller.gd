@@ -8,12 +8,8 @@ export var speed = 9
 
 export var req_rotation = 35
 
-var velocity = Vector3.ZERO
-var camera: Camera
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	camera = get_node("/root/Main/Camera Pivot/Camera")
+export var velocity = Vector3.ZERO
+onready var camera: Camera = $"../Camera Pivot/Camera"
 
 
 func _physics_process(delta):
@@ -44,7 +40,7 @@ func _physics_process(delta):
 		if movement_intensity > 0.01:
 			direction *= movement_intensity
 			
-			print(rad2deg(a.angle_to(b)), " | ", movement_intensity)
+			#print(rad2deg(a.angle_to(b)), " | ", movement_intensity)
 			
 			# Speed us up if we are sprinting
 			if Input.is_action_pressed("sprint"):

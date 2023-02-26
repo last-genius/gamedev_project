@@ -1,13 +1,14 @@
-tool
-extends Spatial
+extends "res://scripts/player_controller.gd"
 
-var child_model
 export var ship_models: Dictionary
 var selected_model
+var child_model
 
 
 func _ready() -> void:
 	# Add the default model
+	if !selected_model:
+		selected_model = ship_models.keys()[0]
 	add_character_model(selected_model)
 
 
@@ -27,21 +28,22 @@ func _get_property_list() -> Array:
 
 func replace_character_model(new_model):
 	# Save the child's position before removing it
-	var old_translation = child_model.global_translation
-	var old_rotation = child_model.global_rotation
 	child_model.queue_free()
 	
 	# Spawn the new model at the needed coordinates
 	add_character_model(new_model)
-	child_model.global_translation.x = old_translation.x
-	child_model.global_translation.z = old_translation.z
-	child_model.global_rotation = old_rotation
-
 
 func add_character_model(new_model):
 	print("The player selected: ", selected_model)
 	child_model = ship_models[new_model].instance()
 	add_child(child_model)
+		
+	# Hack around the fact that KinematicBody needs to have
+	# an immediate child as CollisionShape
+	var col = child_model.get_node("CollisionShape")
+	$CollisionShape.shape = col.shape
+	$CollisionShape.transform = col.transform
+	col.queue_free()
 
 
 func _on_HUD_model_changed(new_model) -> void:

@@ -2,8 +2,8 @@ extends CanvasLayer
 
 signal model_changed
 
-onready var spawner = get_node("../PlayerSpawner")
-onready var option_button: OptionButton = $HBoxContainer/OptionButton
+onready var spawner = $"../PlayerSpawner"
+onready var option_button: OptionButton = $OptionButton
 
 
 func _ready() -> void:

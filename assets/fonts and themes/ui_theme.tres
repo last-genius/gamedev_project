@@ -1,0 +1,66 @@
+[gd_resource type="Theme" load_steps=8 format=2]
+
+[ext_resource path="res://assets/fonts and themes/smaller_font.tres" type="DynamicFont" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.658824, 0.313726, 0.231373, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.596078, 0.286275, 0.211765, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.596078, 0.286275, 0.211765, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.658824, 0.313726, 0.231373, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+expand_margin_left = 16.0
+expand_margin_right = 16.0
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.596078, 0.286275, 0.211765, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+expand_margin_left = 16.0
+expand_margin_right = 16.0
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.596078, 0.286275, 0.211765, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+expand_margin_left = 16.0
+expand_margin_right = 16.0
+
+[resource]
+Button/colors/font_color = Color( 0.337255, 0.0941176, 0.0352941, 1 )
+Button/colors/font_color_disabled = Color( 0.253906, 0.253906, 0.253906, 0.2 )
+Button/colors/font_color_focus = Color( 0.337255, 0.0941176, 0.0352941, 1 )
+Button/colors/font_color_hover = Color( 0.337255, 0.0941176, 0.0352941, 1 )
+Button/colors/font_color_pressed = Color( 1, 0.843137, 0, 1 )
+Button/styles/hover = SubResource( 1 )
+Button/styles/normal = SubResource( 3 )
+Button/styles/pressed = SubResource( 2 )
+OptionButton/constants/arrow_margin = 16
+OptionButton/fonts/font = ExtResource( 1 )
+OptionButton/styles/hover = SubResource( 5 )
+OptionButton/styles/normal = SubResource( 4 )
+OptionButton/styles/pressed = SubResource( 6 )
