@@ -13,7 +13,6 @@ func _ready() -> void:
 	
 	for i in keys.size():
 		var model = keys[i]
-		print(model)
 		option_button.add_item(model)
 		
 		if model == spawner.selected_model:

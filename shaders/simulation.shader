@@ -7,6 +7,8 @@ uniform float phase = 0.18;
 uniform float attenuation = 0.995;
 uniform float deltaUV = 3.0;
 
+uniform vec2 col_position;
+
 void fragment() {
 	float dv = 1.0 / 512.0;
 	float du = 1.0 / 512.0;

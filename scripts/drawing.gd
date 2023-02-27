@@ -16,6 +16,9 @@ func _process(_delta):
 func refresh_curves():
 	curves_arr.clear()
 	
+	if cannons == null:
+		cannons = get_node_or_null("../../PlayerSpawner/Player/CannonPositions")
+		
 	if cannons != null:
 		# For each cannon, add a trajectory curve out of it
 		for cannon in cannons.get_children():
@@ -29,8 +32,6 @@ func refresh_curves():
 			new_curve.add_point(p2, p3-p2, Vector3.ZERO)
 			
 			curves_arr.append(new_curve.duplicate())
-	else:
-		cannons = get_node_or_null("../../PlayerSpawner/Player/CannonPositions")
 
 
 func _draw():

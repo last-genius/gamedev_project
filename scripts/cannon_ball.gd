@@ -1,17 +1,35 @@
 extends Spatial
 
-signal animation_finished
+signal finished_curve
 
 export(Curve3D) var curve
-var t = 0.0
 export var total_time = 0.5
+var t = 0.0
+var had_collision: bool = false
+
 
 func _ready() -> void:
-	# Play an explosion animation?
-	pass
+	set_as_toplevel(true)
+	$StylizedExplosion/AnimationPlayer.connect("animation_finished", self, "finished_curve")
+
 
 func _physics_process(delta):
-	t += delta
-	global_translation = curve.interpolate_baked(t / total_time * curve.get_baked_length(), true)
-	if t >= total_time:
-		emit_signal("animation_finished", self)
+	if !had_collision:
+		t += delta
+		global_translation = curve.interpolate_baked(t / total_time * curve.get_baked_length(), true)
+		if t >= total_time:
+			finished_curve()
+
+
+func _on_Area_body_entered(body: Node) -> void:
+	if (body.name == "Island1"):
+		had_collision = true
+		print("Exploding on impact with ", body)
+		
+		$StylizedExplosion.visible = true
+		$StylizedExplosion/AnimationPlayer.play("Explosion")
+		$cannonBall.visible = false
+
+
+func finished_curve(_anim_name="Explosion"):
+	emit_signal("finished_curve", self)

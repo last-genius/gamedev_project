@@ -10,6 +10,7 @@ export var req_rotation = 35
 
 export var velocity = Vector3.ZERO
 onready var camera: Camera = $"../Camera Pivot/Camera"
+onready var sim_tex: ColorRect = $"../SimulationViewport/ColorRect"
 
 
 func _physics_process(delta):
@@ -65,3 +66,6 @@ func _physics_process(delta):
 			
 			#if collision_info:
 			#	velocity = velocity.bounce(collision_info.normal)
+	
+	#sim_tex.material.set_shader_param("col_position", Vector2(global_translation.x, global_translation.z)/10)
+	#print(sim_tex.material.get_shader_param("col_position"))

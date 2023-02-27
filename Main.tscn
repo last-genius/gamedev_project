@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://shaders/simulation.shader" type="Shader" id=1]
 [ext_resource path="res://shaders/render.shader" type="Shader" id=2]
@@ -29,8 +29,12 @@ shader = ExtResource( 1 )
 shader_param/phase = 0.18
 shader_param/attenuation = 0.995
 shader_param/deltaUV = 2.3
+shader_param/col_position = null
 shader_param/simulation_texture = SubResource( 11 )
 shader_param/collision_texture = SubResource( 12 )
+
+[sub_resource type="ViewportTexture" id=28]
+viewport_path = NodePath("CollisionViewport")
 
 [sub_resource type="ViewportTexture" id=23]
 viewport_path = NodePath("SimulationViewport")
@@ -44,6 +48,7 @@ shader_param/shallow_water_color = Vector3( 0.27, 0.682, 1 )
 shader_param/deep_water_color = Vector3( 0, 0.0823, 0.34 )
 shader_param/waves_color = Vector3( 0.7, 0.7, 0.7 )
 shader_param/sim_tex = SubResource( 23 )
+shader_param/col_tex = SubResource( 28 )
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 20, 20 )
@@ -126,14 +131,6 @@ shape = SubResource( 24 )
 script = ExtResource( 10 )
 cannonball_model = ExtResource( 11 )
 
-[node name="Camera Pivot" type="Spatial" parent="."]
-
-[node name="Camera" type="Camera" parent="Camera Pivot"]
-transform = Transform( 9.27258e-08, -0.707107, 0.707107, 9.27258e-08, 0.707107, 0.707107, -1, 0, 1.31134e-07, 12, 15, 0 )
-cull_mask = 524287
-current = true
-script = ExtResource( 4 )
-
 [node name="CollisionViewport" type="Viewport" parent="."]
 size = Vector2( 512, 512 )
 handle_input_locally = false
@@ -164,6 +161,14 @@ color = Color( 0, 0, 0, 1 )
 material_override = SubResource( 8 )
 mesh = SubResource( 2 )
 
+[node name="Camera Pivot" type="Spatial" parent="."]
+
+[node name="Camera" type="Camera" parent="Camera Pivot"]
+transform = Transform( 9.27258e-08, -0.707107, 0.707107, 9.27258e-08, 0.707107, 0.707107, -1, 0, 1.31134e-07, 12, 15, 0 )
+cull_mask = 524287
+current = true
+script = ExtResource( 4 )
+
 [node name="CSGBox" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0 )
 width = 22.0
@@ -178,7 +183,6 @@ height = 10.0
 depth = 20.0
 
 [node name="Terrain" type="Spatial" parent="."]
-visible = false
 
 [node name="Island1" type="StaticBody" parent="Terrain"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15 )
@@ -195,30 +199,30 @@ script = ExtResource( 9 )
 curve = SubResource( 25 )
 new_curve = SubResource( 26 )
 
-[node name="Ball" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+[node name="Debug" type="Spatial" parent="."]
 visible = false
 
-[node name="MeshInstance" type="MeshInstance" parent="Ball"]
+[node name="Ball" type="Spatial" parent="Debug"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Debug/Ball"]
 mesh = SubResource( 13 )
 
-[node name="WaterCollision" type="MeshInstance" parent="Ball"]
+[node name="WaterCollision" type="MeshInstance" parent="Debug/Ball"]
 layers = 524288
 mesh = SubResource( 16 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Ball"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Debug/Ball"]
 autoplay = "Ball Loop"
 "anims/Ball Loop" = SubResource( 17 )
 anims/RESET = SubResource( 18 )
 
-[node name="DebugCollision" type="Sprite3D" parent="."]
+[node name="DebugCollision" type="Sprite3D" parent="Debug"]
 transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, 11.2666 )
-visible = false
 texture = SubResource( 20 )
 
-[node name="DebugSimulation" type="Sprite3D" parent="."]
+[node name="DebugSimulation" type="Sprite3D" parent="Debug"]
 transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, -8.7733 )
-visible = false
 texture = SubResource( 21 )
 
 [connection signal="model_changed" from="HUD" to="PlayerSpawner" method="_on_HUD_model_changed"]

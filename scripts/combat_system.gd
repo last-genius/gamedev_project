@@ -14,7 +14,7 @@ func _unhandled_input(event):
 		for curve in curves_arr:
 			var new_ball = cannonball_model.instance()
 			new_ball.curve = curve
-			new_ball.connect("animation_finished", self, "kill_cannonball")
+			new_ball.connect("finished_curve", self, "kill_cannonball")
 			add_child(new_ball)
 
 

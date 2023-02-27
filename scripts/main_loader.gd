@@ -16,13 +16,13 @@ func _ready():
 	# Add the loading bar scene, hide it by default
 	loading_bar = loading_bar.instance()
 	self.add_child(loading_bar)
-	loading_bar = loading_bar.get_child(0)
+	loading_bar = loading_bar.get_node("ProgressBar")
 	loading_bar.visible = false
-	
 
-func show_loading(text):
-	loading_bar.text = text as String
-	print(text)
+
+func show_loading(percent):
+	loading_bar.value = percent
+	print(percent)
 	if !loading_bar.visible:
 		loading_bar.visible = true
 
@@ -39,20 +39,11 @@ func change_scene(path):
 	set_process(true)
 	
 	current_scene.queue_free() # Get rid of the old scene.
-	
-	# Start your "loading..." animation.
-	#get_node("animation").play("loading")
 
 
 func update_progress():
 	var progress = float(loader.get_stage()) / loader.get_stage_count()
 	show_loading(progress)
-
-	# ...or update a progress animation?
-	#var length = get_node("animation").get_current_animation_length()
-	# Call this on a paused animation. Use "true" as the second argument to
-	# force the animation to update.
-	# get_node("animation").seek(progress * length, true)
 
 
 func _process(_delta):
