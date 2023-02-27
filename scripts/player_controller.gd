@@ -1,10 +1,10 @@
 extends KinematicBody
 
 export var interpolation_rate = 8
-export var rotation_rate = 5
+export var rotation_rate = 2.1
 
-export var shift_speed = 14
-export var speed = 9
+export var shift_speed = 20
+export var speed = 14
 
 export var req_rotation = 35
 
@@ -36,6 +36,10 @@ func _physics_process(delta):
 		# Increase movement intensity as we get closer to the right rotation
 		var movement_intensity: float = pow(abs((clamp(rad2deg(a.angle_to(b)), 0, req_rotation) / req_rotation) - 1), 2)
 		
+		# Reset height
+		if abs(global_translation.y) > 0.001:
+			global_translation.y = 0
+		
 		# Only move if we have < req_rotation to go
 		if movement_intensity > 0.01:
 			direction *= movement_intensity
@@ -57,4 +61,7 @@ func _physics_process(delta):
 				velocity.x = interpolated.x
 				velocity.z = interpolated.z
 			
-			velocity = move_and_slide(velocity, Vector3.UP)
+			var _collision_info = move_and_collide(velocity * delta)
+			
+			#if collision_info:
+			#	velocity = velocity.bounce(collision_info.normal)

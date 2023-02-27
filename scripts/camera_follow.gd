@@ -4,12 +4,10 @@ var player
 export var offset = Vector3(5, 10, 5)
 export var camera_speed = 5.0
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	player = get_node("/root/Main/PlayerSpawner")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 
 func _physics_process(delta: float) -> void:
 	var target_position = player.global_translation + offset

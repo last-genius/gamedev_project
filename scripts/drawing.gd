@@ -6,7 +6,7 @@ export(Curve2D) var curve
 export(Curve3D) var new_curve
 export(Array, Curve3D) var curves_arr
 
-var cannons: Spatial
+var cannons: Spatial = null
 
 
 func _process(_delta):
@@ -15,7 +15,6 @@ func _process(_delta):
 
 func refresh_curves():
 	curves_arr.clear()
-	cannons = get_node_or_null("../../PlayerSpawner/Player/CannonPositions")
 	
 	if cannons != null:
 		# For each cannon, add a trajectory curve out of it
@@ -30,6 +29,8 @@ func refresh_curves():
 			new_curve.add_point(p2, p3-p2, Vector3.ZERO)
 			
 			curves_arr.append(new_curve.duplicate())
+	else:
+		cannons = get_node_or_null("../../PlayerSpawner/Player/CannonPositions")
 
 
 func _draw():

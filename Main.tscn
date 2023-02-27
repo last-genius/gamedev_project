@@ -50,8 +50,9 @@ size = Vector2( 20, 20 )
 subdivide_width = 500
 subdivide_depth = 500
 
-[sub_resource type="SphereShape" id=27]
-radius = 2.0
+[sub_resource type="CylinderShape" id=27]
+height = 10.0
+radius = 4.0
 
 [sub_resource type="Curve2D" id=25]
 _data = {
@@ -159,6 +160,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
+[node name="Water" type="MeshInstance" parent="."]
+material_override = SubResource( 8 )
+mesh = SubResource( 2 )
+
 [node name="CSGBox" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0 )
 width = 22.0
@@ -172,11 +177,8 @@ width = 20.0
 height = 10.0
 depth = 20.0
 
-[node name="Water" type="MeshInstance" parent="."]
-material_override = SubResource( 8 )
-mesh = SubResource( 2 )
-
 [node name="Terrain" type="Spatial" parent="."]
+visible = false
 
 [node name="Island1" type="StaticBody" parent="Terrain"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15 )

@@ -12,20 +12,6 @@ func _ready() -> void:
 	add_character_model(selected_model)
 
 
-# A function to enable selection of the current model
-# from the dictionary in the inspector
-func _get_property_list() -> Array:
-	return [
-		{
-			name = "selected_model",
-			type = TYPE_STRING,
-			hint = PROPERTY_HINT_ENUM,
-			hint_string = PoolStringArray(ship_models.keys()).join(","),
-			usage = PROPERTY_USAGE_DEFAULT,
-		},
-	]
-
-
 func replace_character_model(new_model):
 	# Save the child's position before removing it
 	child_model.queue_free()
@@ -49,3 +35,18 @@ func add_character_model(new_model):
 func _on_HUD_model_changed(new_model) -> void:
 	selected_model = new_model
 	replace_character_model(new_model)
+	
+
+# A function to enable selection of the current model
+# from the dictionary in the inspector
+# ? Might not work now since I've changed this script from 'tool'
+func _get_property_list() -> Array:
+	return [
+		{
+			name = "selected_model",
+			type = TYPE_STRING,
+			hint = PROPERTY_HINT_ENUM,
+			hint_string = PoolStringArray(ship_models.keys()).join(","),
+			usage = PROPERTY_USAGE_DEFAULT,
+		},
+	]
