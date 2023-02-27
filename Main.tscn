@@ -1,7 +1,6 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://shaders/simulation.shader" type="Shader" id=1]
-[ext_resource path="res://shaders/render.shader" type="Shader" id=2]
+[ext_resource path="res://scripts/water_manager.gd" type="Script" id=2]
 [ext_resource path="res://assets/ship_models/RacingBoat.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/camera_follow.gd" type="Script" id=4]
 [ext_resource path="res://materials/collision_red.material" type="Material" id=5]
@@ -13,47 +12,6 @@
 [ext_resource path="res://assets/models/cannon_ball.tscn" type="PackedScene" id=11]
 
 [sub_resource type="BoxShape" id=24]
-
-[sub_resource type="Environment" id=22]
-background_mode = 1
-
-[sub_resource type="ViewportTexture" id=12]
-viewport_path = NodePath("CollisionViewport")
-
-[sub_resource type="ViewportTexture" id=11]
-viewport_path = NodePath("SimulationViewport")
-
-[sub_resource type="ShaderMaterial" id=1]
-resource_local_to_scene = true
-shader = ExtResource( 1 )
-shader_param/phase = 0.18
-shader_param/attenuation = 0.995
-shader_param/deltaUV = 2.3
-shader_param/col_position = null
-shader_param/simulation_texture = SubResource( 11 )
-shader_param/collision_texture = SubResource( 12 )
-
-[sub_resource type="ViewportTexture" id=28]
-viewport_path = NodePath("CollisionViewport")
-
-[sub_resource type="ViewportTexture" id=23]
-viewport_path = NodePath("SimulationViewport")
-
-[sub_resource type="ShaderMaterial" id=8]
-resource_local_to_scene = true
-shader = ExtResource( 2 )
-shader_param/amplitude = 1.0
-shader_param/murkiness = 0.25
-shader_param/shallow_water_color = Vector3( 0.27, 0.682, 1 )
-shader_param/deep_water_color = Vector3( 0, 0.0823, 0.34 )
-shader_param/waves_color = Vector3( 0.7, 0.7, 0.7 )
-shader_param/sim_tex = SubResource( 23 )
-shader_param/col_tex = SubResource( 28 )
-
-[sub_resource type="PlaneMesh" id=2]
-size = Vector2( 20, 20 )
-subdivide_width = 500
-subdivide_depth = 500
 
 [sub_resource type="CylinderShape" id=27]
 height = 10.0
@@ -106,12 +64,6 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 3, 0 ) ]
 }
 
-[sub_resource type="ViewportTexture" id=20]
-viewport_path = NodePath("CollisionViewport")
-
-[sub_resource type="ViewportTexture" id=21]
-viewport_path = NodePath("SimulationViewport")
-
 [node name="Main" type="Spatial"]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
@@ -131,40 +83,14 @@ shape = SubResource( 24 )
 script = ExtResource( 10 )
 cannonball_model = ExtResource( 11 )
 
-[node name="CollisionViewport" type="Viewport" parent="."]
-size = Vector2( 512, 512 )
-handle_input_locally = false
-render_target_update_mode = 3
-
-[node name="Camera" type="Camera" parent="CollisionViewport"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -10, 0 )
-cull_mask = 524288
-environment = SubResource( 22 )
-projection = 1
-size = 20.0
-far = 10.0
-
-[node name="SimulationViewport" type="Viewport" parent="."]
-size = Vector2( 512, 512 )
-handle_input_locally = false
-hdr = false
-render_target_clear_mode = 2
-render_target_update_mode = 3
-
-[node name="ColorRect" type="ColorRect" parent="SimulationViewport"]
-material = SubResource( 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 1 )
-
-[node name="Water" type="MeshInstance" parent="."]
-material_override = SubResource( 8 )
-mesh = SubResource( 2 )
+[node name="WaterManager" type="Spatial" parent="."]
+script = ExtResource( 2 )
+tile_size = 35
 
 [node name="Camera Pivot" type="Spatial" parent="."]
 
 [node name="Camera" type="Camera" parent="Camera Pivot"]
-transform = Transform( 9.27258e-08, -0.707107, 0.707107, 9.27258e-08, 0.707107, 0.707107, -1, 0, 1.31134e-07, 12, 15, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 12, 15, 0 )
 cull_mask = 524287
 current = true
 script = ExtResource( 4 )
@@ -219,10 +145,8 @@ anims/RESET = SubResource( 18 )
 
 [node name="DebugCollision" type="Sprite3D" parent="Debug"]
 transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, 11.2666 )
-texture = SubResource( 20 )
 
 [node name="DebugSimulation" type="Sprite3D" parent="Debug"]
 transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, -8.7733 )
-texture = SubResource( 21 )
 
 [connection signal="model_changed" from="HUD" to="PlayerSpawner" method="_on_HUD_model_changed"]

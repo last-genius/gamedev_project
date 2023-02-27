@@ -34,14 +34,14 @@ void fragment() {
 	vec4 refracted_tex = texture(SCREEN_TEXTURE, new_normal);
 	ALBEDO = mix(refracted_tex.xyz, mixed_colors, 0.9); */
 	
-	ALBEDO = mix(deep_water_color, shallow_water_color, depth);
-	//ALBEDO = mix(mix(deep_water_color, shallow_water_color, depth), waves_color, input.r);
-	NORMAL = normal;
+	//ALBEDO = mix(deep_water_color, shallow_water_color, depth);
+	ALBEDO = mix(mix(deep_water_color, shallow_water_color, depth), waves_color, input.r);
+	//NORMAL = normal;
 }
 
 void vertex() {
-	if (texture(col_tex, UV).r == 0.0f) {
+	/*if (texture(col_tex, UV).r == 0.0f) {
 		vec4 input = texture(sim_tex, UV);
 		VERTEX.y += amplitude * input.r * NORMAL.y;
-	}
+	}*/
 }
