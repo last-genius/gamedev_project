@@ -1,5 +1,6 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
+[ext_resource path="res://scripts/enemy_spawner.gd" type="Script" id=1]
 [ext_resource path="res://scripts/water_manager.gd" type="Script" id=2]
 [ext_resource path="res://assets/ship_models/RacingBoat.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/camera_follow.gd" type="Script" id=4]
@@ -70,6 +71,7 @@ tracks/0/keys = {
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8, 8 )
 
 [node name="PlayerSpawner" type="KinematicBody" parent="."]
+unique_name_in_owner = true
 script = ExtResource( 6 )
 ship_models = {
 "Pirate Ship": ExtResource( 7 ),
@@ -83,13 +85,18 @@ shape = SubResource( 24 )
 script = ExtResource( 10 )
 cannonball_model = ExtResource( 11 )
 
+[node name="EnemySpawner" type="Spatial" parent="."]
+script = ExtResource( 1 )
+
 [node name="WaterManager" type="Spatial" parent="."]
 script = ExtResource( 2 )
 tile_size = 35
+radius = 0
 
 [node name="Camera Pivot" type="Spatial" parent="."]
 
 [node name="Camera" type="Camera" parent="Camera Pivot"]
+unique_name_in_owner = true
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 12, 15, 0 )
 cull_mask = 524287
 current = true
@@ -119,6 +126,7 @@ shape = SubResource( 27 )
 [node name="HUD" parent="." instance=ExtResource( 8 )]
 
 [node name="InGameDraw" type="Control" parent="HUD"]
+unique_name_in_owner = true
 margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 9 )

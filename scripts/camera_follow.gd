@@ -1,12 +1,8 @@
 extends Camera
 
-var player
 export var offset = Vector3(5, 12, 5)
 export var camera_speed = 5.0
-
-
-func _ready() -> void:
-	player = get_node("/root/Main/PlayerSpawner")
+onready var player: KinematicBody = $"%PlayerSpawner"
 
 
 func _physics_process(delta: float) -> void:

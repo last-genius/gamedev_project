@@ -1,16 +1,12 @@
 extends Control
 
-onready var player = $"../../PlayerSpawner"
-onready var camera: Camera = $"../../Camera Pivot/Camera"
+onready var player = $"%PlayerSpawner"
+onready var camera: Camera = $"%Camera"
 export(Curve2D) var curve
 export(Curve3D) var new_curve
 export(Array, Curve3D) var curves_arr
 
 var cannons: Spatial = null
-
-
-func _process(_delta):
-	update()
 
 
 func refresh_curves():
@@ -26,28 +22,45 @@ func refresh_curves():
 
 			var p0 = cannon.global_translation
 			var p1 = cannon.global_translation - 4*cannon.global_transform.basis.z + 2*Vector3.UP
-			var p2 = cannon.global_translation - 5*cannon.global_transform.basis.z - Vector3.UP
-			var p3 = cannon.global_translation - 4*cannon.global_transform.basis.z + Vector3.UP
+			var p2 = cannon.global_translation - 14*cannon.global_transform.basis.z - 2*Vector3.UP
+			var p3 = cannon.global_translation - 10*cannon.global_transform.basis.z + Vector3.UP
 			new_curve.add_point(p0, Vector3.ZERO, p1 - p0)
 			new_curve.add_point(p2, p3-p2, Vector3.ZERO)
 			
 			curves_arr.append(new_curve.duplicate())
 
 
+func _process(_delta):
+	update()
+
+
 func _draw():
+	"""
+	# Draw movement direction
 	var color = Color(0, 1, 0)
 	var start = camera.unproject_position(player.global_translation)
 	var end = camera.unproject_position(player.global_translation - 2*player.global_transform.basis.z)
 	draw_line(start, end, color, 8)
 	draw_triangle(end, start.direction_to(end), 16, color)
+	"""
 	
 	# Draw cannon trajectories
 	if Input.is_action_pressed("aim"):
 		refresh_curves()
+		#$ImmediateGeometry.clear()
+		
 		for curve3d in curves_arr:
+			"""
+			var pts3d = curve3d.get_baked_points()
+			$ImmediateGeometry.begin(Mesh.PRIMITIVE_LINES)
+			$ImmediateGeometry.set_color(Color(0, 0, 1))
+			for pt in pts3d:
+				$ImmediateGeometry.add_vertex(pt)
+			$ImmediateGeometry.end()
+			"""
+
 			curve.clear_points()
-			
-			color = Color(1, 0, 0)
+			var color = Color(1, 0, 0)
 			# Translate the 3D trajectory curve into 2D camera space
 			var p0 = camera.unproject_position(curve3d.get_point_position(0))
 			var p1 = camera.unproject_position(curve3d.get_point_position(0) + curve3d.get_point_out(0))
@@ -59,7 +72,10 @@ func _draw():
 			var pts = curve.tessellate()
 			for i in len(pts)-1:
 				draw_line(pts[i], pts[i+1], color, 8)
+				
 			draw_triangle(pts[-1], pts[-2].direction_to(pts[-1]), 16, color)
+	#elif Input.is_action_just_released("aim"):
+	#	$ImmediateGeometry.clear()
 
 
 func draw_triangle(pos, dir, size, color):

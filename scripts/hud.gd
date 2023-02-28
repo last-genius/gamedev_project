@@ -2,7 +2,7 @@ extends CanvasLayer
 
 signal model_changed
 
-onready var spawner = $"../PlayerSpawner"
+onready var spawner = $"%PlayerSpawner"
 onready var option_button: OptionButton = $OptionButton
 
 

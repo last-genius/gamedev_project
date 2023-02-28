@@ -16,7 +16,7 @@ func _ready():
 	# Add the loading bar scene, hide it by default
 	loading_bar = loading_bar.instance()
 	self.add_child(loading_bar)
-	loading_bar = loading_bar.get_node("ProgressBar")
+	loading_bar = loading_bar.get_node("%ProgressBar")
 	loading_bar.visible = false
 
 

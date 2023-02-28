@@ -9,7 +9,7 @@ export var speed = 14
 export var req_rotation = 35
 
 export var velocity = Vector3.ZERO
-onready var camera: Camera = $"../Camera Pivot/Camera"
+onready var camera: Camera = $"%Camera"
 
 
 func _physics_process(delta):

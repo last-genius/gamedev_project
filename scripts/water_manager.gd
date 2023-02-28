@@ -5,7 +5,7 @@ extends Spatial
 var water_tile = preload("res://scenes/WaterTile.tscn")
 export var tile_size = 20
 export var radius = 1
-onready var player: KinematicBody = $"../PlayerSpawner"
+onready var player: KinematicBody = $"%PlayerSpawner"
 
 var tiles = {}
 var prev_tile = null
@@ -50,11 +50,11 @@ func add_neighbor_textures(position):
 		["bottom_texture", bottom_viewport],
 	]
 	
-	print("Setting node neighbors for position ", position, ":")
+	#print("Setting node neighbors for position ", position, ":")
 	for neighbor in neighbors:
 		if neighbor[1] != null:
 			node.material.set_shader_param(neighbor[0], neighbor[1].get_node("SimulationViewport").get_texture())
-		print("\t", neighbor[0], ": ", node.material.get_shader_param(neighbor[0]))
+		#print("\t", neighbor[0], ": ", node.material.get_shader_param(neighbor[0]))
 
 
 func change_position(tile, position):

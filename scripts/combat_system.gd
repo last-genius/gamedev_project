@@ -3,7 +3,7 @@ extends Spatial
 export(PackedScene) var cannonball_model
 #var cannon_positions: Spatial
 var curves_arr = []
-onready var in_game_draw: Control = $"../../HUD/InGameDraw"
+onready var in_game_draw: Control = $"%InGameDraw"
 
 func _unhandled_input(event):
 	if event.is_action_pressed("fire"):
