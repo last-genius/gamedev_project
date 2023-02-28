@@ -39,9 +39,9 @@ void fragment() {
 	//NORMAL = normal;
 }
 
-void vertex() {
-	/*if (texture(col_tex, UV).r == 0.0f) {
+/*void vertex() {
+	if (texture(col_tex, UV).r == 0.0f) {
 		vec4 input = texture(sim_tex, UV);
 		VERTEX.y += amplitude * input.r * NORMAL.y;
-	}*/
-}
+	}
+}*/

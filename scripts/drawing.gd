@@ -16,10 +16,10 @@ func _process(_delta):
 func refresh_curves():
 	curves_arr.clear()
 	
-	if cannons == null:
+	if cannons == null or !is_instance_valid(cannons):
 		cannons = get_node_or_null("../../PlayerSpawner/Player/CannonPositions")
 		
-	if cannons != null:
+	if cannons != null and is_instance_valid(cannons):
 		# For each cannon, add a trajectory curve out of it
 		for cannon in cannons.get_children():
 			new_curve.clear_points()

@@ -130,6 +130,7 @@ visible = false
 
 [node name="Ball" type="Spatial" parent="Debug"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+visible = false
 
 [node name="MeshInstance" type="MeshInstance" parent="Debug/Ball"]
 mesh = SubResource( 13 )
@@ -145,8 +146,10 @@ anims/RESET = SubResource( 18 )
 
 [node name="DebugCollision" type="Sprite3D" parent="Debug"]
 transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, 11.2666 )
+visible = false
 
 [node name="DebugSimulation" type="Sprite3D" parent="Debug"]
 transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, -8.7733 )
+visible = false
 
 [connection signal="model_changed" from="HUD" to="PlayerSpawner" method="_on_HUD_model_changed"]

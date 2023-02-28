@@ -1,8 +1,10 @@
+tool
 extends Spatial
 
 
 var water_tile = preload("res://scenes/WaterTile.tscn")
 export var tile_size = 20
+export var radius = 1
 onready var player: KinematicBody = $"../PlayerSpawner"
 
 var tiles = {}
@@ -28,6 +30,31 @@ func _process(_delta):
 				pass
 				
 		#print("\n\n Tiles currently: ", tiles)
+	
+	for pos in new_tiles:
+		add_neighbor_textures(pos)
+
+
+func add_neighbor_textures(position):
+	var node = tiles[position].get_node("SimulationViewport/ColorRect")
+	
+	var left_viewport = tiles.get(position - Vector2(tile_size, 0.0))
+	var top_viewport = tiles.get(position + Vector2(0.0, tile_size))
+	var right_viewport = tiles.get(position + Vector2(tile_size, 0.0))
+	var bottom_viewport = tiles.get(position - Vector2(0.0, tile_size))
+	
+	var neighbors = [
+		["left_texture", left_viewport],
+		["top_texture", top_viewport],
+		["right_texture", right_viewport],
+		["bottom_texture", bottom_viewport],
+	]
+	
+	print("Setting node neighbors for position ", position, ":")
+	for neighbor in neighbors:
+		if neighbor[1] != null:
+			node.material.set_shader_param(neighbor[0], neighbor[1].get_node("SimulationViewport").get_texture())
+		print("\t", neighbor[0], ": ", node.material.get_shader_param(neighbor[0]))
 
 
 func change_position(tile, position):
@@ -39,7 +66,10 @@ func change_position(tile, position):
 
 
 func get_player_position():
-	return Vector2(player.global_translation.x, player.global_translation.z)
+	if player == null:
+		return Vector2.ZERO
+	else:
+		return Vector2(player.global_translation.x, player.global_translation.z)
 
 
 func get_neighboring_tiles(position: Vector2):
@@ -56,8 +86,9 @@ func get_neighboring_tiles(position: Vector2):
 		
 		# Then calculate the neighboring tiles
 		#print(position, center)
-		for i in [-1, 0, 1]:
-			for j in [-1, 0, 1]:
+		for i in range(-radius, radius + 1):
+			for j in range(-radius, radius + 1):
 				neighbors.append((center + Vector2(i, j)) * tile_size)
-		
+	
+	# TODO: convert to more consistent metrics (array of ints?)
 	return neighbors

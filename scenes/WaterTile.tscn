@@ -18,6 +18,7 @@ shader = ExtResource( 2 )
 shader_param/phase = 0.18
 shader_param/attenuation = 0.995
 shader_param/deltaUV = 2.3
+shader_param/size = 512.0
 shader_param/col_position = null
 shader_param/simulation_texture = SubResource( 11 )
 shader_param/collision_texture = SubResource( 12 )
