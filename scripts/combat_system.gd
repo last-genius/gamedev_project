@@ -1,12 +1,19 @@
 extends Spatial
 
+onready var in_game_draw: Control = $"%InGameDraw"
+export var reload_time = 3.0
 export(PackedScene) var cannonball_model
+
 #var cannon_positions: Spatial
 var curves_arr = []
-onready var in_game_draw: Control = $"%InGameDraw"
+var last_fire_time = 0.0
+
 
 func _unhandled_input(event):
-	if event.is_action_pressed("fire"):
+	var current_time = Time.get_unix_time_from_system()
+	if event.is_action_pressed("fire") and (current_time - last_fire_time) > reload_time:
+		last_fire_time = current_time
+		
 		#cannon_positions = get_node_or_null("../../PlayerSpawner/Player/CannonPositions")
 		in_game_draw.refresh_curves()
 		curves_arr = in_game_draw.curves_arr.duplicate()

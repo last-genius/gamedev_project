@@ -8,7 +8,7 @@ onready var option_button: OptionButton = $OptionButton
 
 func _ready() -> void:
 	# Fill up the option button with the ship models
-	print(spawner.ship_models)	
+	print("Models to select from: ", spawner.ship_models)	
 	var keys = spawner.ship_models.keys()
 	
 	for i in keys.size():

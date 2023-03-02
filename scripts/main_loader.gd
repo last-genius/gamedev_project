@@ -5,9 +5,13 @@ var loader
 var current_scene
 var time_max = 100 # msec
 var loading_bar = preload("res://scenes/loading_bar.tscn")
+var random
 
 
 func _ready():
+	random = RandomNumberGenerator.new()
+	random.randomize()
+	
 	var root = get_tree().get_root()
 	# Since we've been autoloaded into the scene, the actual scene
 	# is going to be the last one in the tree

@@ -45,7 +45,7 @@ func _draw():
 	"""
 	
 	# Draw cannon trajectories
-	if Input.is_action_pressed("aim"):
+	if !Input.is_action_pressed("aim"):
 		refresh_curves()
 		#$ImmediateGeometry.clear()
 		
@@ -76,6 +76,16 @@ func _draw():
 			draw_triangle(pts[-1], pts[-2].direction_to(pts[-1]), 16, color)
 	#elif Input.is_action_just_released("aim"):
 	#	$ImmediateGeometry.clear()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("screenshot"):
+		var current_time = Time.get_unix_time_from_system()
+		var image = get_viewport().get_texture().get_data()
+		image.flip_y()
+		var path = "user://screenshot" + String(current_time) + ".png"
+		print(path)
+		image.save_png(path)
 
 
 func draw_triangle(pos, dir, size, color):

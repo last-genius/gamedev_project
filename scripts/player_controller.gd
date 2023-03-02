@@ -11,6 +11,11 @@ export var req_rotation = 35
 export var velocity = Vector3.ZERO
 onready var camera: Camera = $"%Camera"
 
+func _enter_tree():
+	for input in ["move_left", "move_right", "move_forward", "move_back"]:
+		if not InputMap.has_action(input):
+			InputMap.add_action(input)
+
 
 func _physics_process(delta):
 	var direction = Vector3.ZERO

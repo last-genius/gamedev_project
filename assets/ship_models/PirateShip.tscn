@@ -1,10 +1,14 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://materials/collision_red.material" type="Material" id=2]
 
 [sub_resource type="CapsuleShape" id=15]
 radius = 3.4
 height = 3.0
+
+[sub_resource type="CapsuleShape" id=16]
+radius = 1.5
+height = 4.2
 
 [sub_resource type="SpatialMaterial" id=1]
 resource_name = "wood"
@@ -312,6 +316,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0 )
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.13684, -0.370008 )
 shape = SubResource( 15 )
+
+[node name="SmallCollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52228, -0.370008 )
+shape = SubResource( 16 )
 
 [node name="model" type="MeshInstance" parent="."]
 mesh = SubResource( 6 )

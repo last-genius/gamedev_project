@@ -1,35 +1,39 @@
+tool
 extends "res://scripts/player_controller.gd"
 
-export var ship_models: Dictionary
-var selected_model
+export(Dictionary) var ship_models
+onready var selected_model = ship_models.keys()[0]
 var child_model
 
 
 func _ready() -> void:
 	# Add the default model
-	if !selected_model:
-		selected_model = ship_models.keys()[0]
 	add_character_model(selected_model)
 
 
 func replace_character_model(new_model):
 	# Save the child's position before removing it
 	child_model.queue_free()
+	var col = get_node_or_null("CollisionShape")
+	if col != null and is_instance_valid(col):
+		col.queue_free()
 	
 	# Spawn the new model at the needed coordinates
 	add_character_model(new_model)
 
 func add_character_model(new_model):
-	print("The player selected: ", selected_model)
+	print("The player selected: ", new_model)
 	child_model = ship_models[new_model].instance()
 	add_child(child_model)
 		
 	# Hack around the fact that KinematicBody needs to have
 	# an immediate child as CollisionShape
+	var small_col = child_model.get_node_or_null("SmallCollisionShape")
+	if small_col != null and is_instance_valid(small_col):
+		child_model.remove_child(small_col)
 	var col = child_model.get_node("CollisionShape")
-	$CollisionShape.shape = col.shape
-	$CollisionShape.transform = col.transform
-	col.queue_free()
+	child_model.remove_child(col)
+	add_child(col)
 
 
 func _on_HUD_model_changed(new_model) -> void:

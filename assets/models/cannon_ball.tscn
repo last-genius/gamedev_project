@@ -24,7 +24,7 @@ surfaces/0 = {
 [sub_resource type="SphereShape" id=2]
 radius = 0.1
 
-[node name="cannon_ball" instance=ExtResource( 1 )]
+[node name="cannon_ball" groups=["weapons"] instance=ExtResource( 1 )]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 script = ExtResource( 2 )
 
@@ -44,4 +44,4 @@ material/0 = ExtResource( 4 )
 [node name="CollisionShape" type="CollisionShape" parent="Area" index="0"]
 shape = SubResource( 2 )
 
-[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
+[connection signal="area_entered" from="Area" to="." method="_on_Area_area_entered"]

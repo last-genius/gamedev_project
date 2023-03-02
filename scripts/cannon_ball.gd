@@ -2,6 +2,7 @@ extends Spatial
 
 signal finished_curve
 
+export var damage = 3.0
 export(Curve3D) var curve
 export var total_time = 0.5
 var t = 0.0
@@ -21,15 +22,15 @@ func _physics_process(delta):
 			finished_curve()
 
 
-func _on_Area_body_entered(body: Node) -> void:
-	if (body.name == "Island1"):
+func finished_curve(_anim_name="Explosion"):
+	emit_signal("finished_curve", self)
+
+
+func _on_Area_area_entered(area: Area) -> void:
+	if (area.is_in_group("enemies")):
 		had_collision = true
-		print("Exploding on impact with ", body)
+		print("Exploding on impact with ", area)
 		
 		$StylizedExplosion.visible = true
 		$StylizedExplosion/AnimationPlayer.play("Explosion")
 		$cannonBall.visible = false
-
-
-func finished_curve(_anim_name="Explosion"):
-	emit_signal("finished_curve", self)
