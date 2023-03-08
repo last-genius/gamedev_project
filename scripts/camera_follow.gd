@@ -1,6 +1,6 @@
 extends Camera
 
-export var offset = Vector3(5, 12, 5)
+export var offset = Vector3(10, 20, 10)
 export var camera_speed = 5.0
 onready var player: KinematicBody = $"%PlayerSpawner"
 

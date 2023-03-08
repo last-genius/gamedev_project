@@ -3,31 +3,17 @@ extends Control
 onready var player = $"%PlayerSpawner"
 onready var camera: Camera = $"%Camera"
 export(Curve2D) var curve
-export(Curve3D) var new_curve
 export(Array, Curve3D) var curves_arr
 
 var cannons: Spatial = null
 
 
 func refresh_curves():
-	curves_arr.clear()
-	
 	if cannons == null or !is_instance_valid(cannons):
-		cannons = get_node_or_null("../../PlayerSpawner/Player/CannonPositions")
+		cannons = get_node_or_null("../../PlayerSpawner/Player/WeaponsManager")
 		
 	if cannons != null and is_instance_valid(cannons):
-		# For each cannon, add a trajectory curve out of it
-		for cannon in cannons.get_children():
-			new_curve.clear_points()
-
-			var p0 = cannon.global_translation
-			var p1 = cannon.global_translation - 4*cannon.global_transform.basis.z + 2*Vector3.UP
-			var p2 = cannon.global_translation - 14*cannon.global_transform.basis.z - 2*Vector3.UP
-			var p3 = cannon.global_translation - 10*cannon.global_transform.basis.z + Vector3.UP
-			new_curve.add_point(p0, Vector3.ZERO, p1 - p0)
-			new_curve.add_point(p2, p3-p2, Vector3.ZERO)
-			
-			curves_arr.append(new_curve.duplicate())
+		curves_arr = cannons.calculate_curves()
 
 
 func _process(_delta):
@@ -45,7 +31,7 @@ func _draw():
 	"""
 	
 	# Draw cannon trajectories
-	if !Input.is_action_pressed("aim"):
+	if Input.is_action_pressed("aim"):
 		refresh_curves()
 		#$ImmediateGeometry.clear()
 		
@@ -78,7 +64,7 @@ func _draw():
 	#	$ImmediateGeometry.clear()
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("screenshot"):
 		var current_time = Time.get_unix_time_from_system()
 		var image = get_viewport().get_texture().get_data()

@@ -8,9 +8,10 @@ export(SpatialMaterial) var sail_material
 onready var terrain: NavigationMeshInstance = $"%Terrain"
 var enemy_ships: Array
 var enemy_script = preload("res://scripts/enemy.gd")
-
+var area_script = preload("res://scripts/new_area.gd")
 
 func _ready() -> void:
+	# warning-ignore:return_value_discarded
 	terrain.connect("navmesh_ready", self, "spawn")
 	
 
@@ -36,10 +37,14 @@ func spawn_model(model: PackedScene, coords: Vector3):
 	add_child(new_model)
 	
 	# Set up the enemy parameters
-	new_model.global_translation.x = coords.x
-	new_model.global_translation.z = coords.z
-	new_model.set_script(enemy_script)
+	new_model.global_translation = coords
 	new_model.name = "Enemy"
+	new_model.set_script(enemy_script)
+	new_model.terrain = terrain
+	new_model.start_pathfinding()
+	
+	var detection_area = new_model.get_node("DetectionArea")
+	detection_area.setup()
 	
 	# Change enemy's sail colors
 	for sail in ["sail_back", "sail_middle", "sail_front"]:
@@ -51,6 +56,7 @@ func spawn_model(model: PackedScene, coords: Vector3):
 	
 	# Add an area to detect collisions
 	var new_area = Area.new()
+	new_area.set_script(area_script)
 	new_area.add_to_group("enemies")
 	new_model.add_child(new_area)
 	var big_col = new_model.get_node("CollisionShape")

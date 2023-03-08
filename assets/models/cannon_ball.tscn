@@ -22,24 +22,25 @@ surfaces/0 = {
 }
 
 [sub_resource type="SphereShape" id=2]
-radius = 0.1
+radius = 0.25
 
-[node name="cannon_ball" groups=["weapons"] instance=ExtResource( 1 )]
-transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
+[node name="cannon_ball" groups=["projectiles"] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="StylizedExplosion" parent="." index="0" instance=ExtResource( 3 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 visible = false
 
 [node name="cannonBall" parent="." index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0 )
 
 [node name="WaterCollision" type="MeshInstance" parent="." index="2"]
+transform = Transform( 2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0 )
 layers = 524288
 mesh = SubResource( 1 )
 material/0 = ExtResource( 4 )
 
-[node name="Area" type="Area" parent="." index="3"]
+[node name="Area" type="Area" parent="." index="3" groups=["projectiles"]]
 
 [node name="CollisionShape" type="CollisionShape" parent="Area" index="0"]
 shape = SubResource( 2 )

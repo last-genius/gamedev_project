@@ -1,4 +1,4 @@
-extends OptionButton
+extends BaseButton
 
 
 func _gui_input(event):

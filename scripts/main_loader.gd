@@ -1,11 +1,11 @@
 # An autoloader script that changes scenes through a loading screen
 extends Node
 
-var loader
+var loader: ResourceInteractiveLoader
 var current_scene
-var time_max = 100 # msec
-var loading_bar = preload("res://scenes/loading_bar.tscn")
-var random
+var time_max := 100 # msec
+var loading_bar = preload("res://scenes/loading_bar.tscn") as PackedScene
+var random: RandomNumberGenerator
 
 
 func _ready():

@@ -11,6 +11,7 @@ var had_collision: bool = false
 
 func _ready() -> void:
 	set_as_toplevel(true)
+# warning-ignore:return_value_discarded
 	$StylizedExplosion/AnimationPlayer.connect("animation_finished", self, "finished_curve")
 
 
@@ -29,7 +30,7 @@ func finished_curve(_anim_name="Explosion"):
 func _on_Area_area_entered(area: Area) -> void:
 	if (area.is_in_group("enemies")):
 		had_collision = true
-		print("Exploding on impact with ", area)
+		#print("Exploding on impact with ", area)
 		
 		$StylizedExplosion.visible = true
 		$StylizedExplosion/AnimationPlayer.play("Explosion")

@@ -1,29 +1,39 @@
 extends Spatial
 
-onready var in_game_draw: Control = $"%InGameDraw"
-export var reload_time = 3.0
-export(PackedScene) var cannonball_model
+signal weapons_updated
 
-#var cannon_positions: Spatial
+onready var hud: CanvasLayer = $"%HUD"
+onready var in_game_draw: Control = $"%InGameDraw"
+onready var reload_timer: Timer = $"%ReloadTimer"
+export var reload_time := 3.0
+export(Array) var all_weapons
+
+var weapons_manager: Spatial = null
+var current_weapons: Array
+var selected_weapon: int = 1
 var curves_arr = []
 var last_fire_time = 0.0
 
 
-func _unhandled_input(event):
-	var current_time = Time.get_unix_time_from_system()
-	if event.is_action_pressed("fire") and (current_time - last_fire_time) > reload_time:
-		last_fire_time = current_time
-		
-		#cannon_positions = get_node_or_null("../../PlayerSpawner/Player/CannonPositions")
-		in_game_draw.refresh_curves()
-		curves_arr = in_game_draw.curves_arr.duplicate()
-		
-		for curve in curves_arr:
-			var new_ball = cannonball_model.instance()
-			new_ball.curve = curve
-			new_ball.connect("finished_curve", self, "kill_cannonball")
-			add_child(new_ball)
+func _ready():
+	# warning-ignore:return_value_discarded
+	hud.connect("ready", self, "setup_weapons")
+	
+	
+func setup_weapons():
+	# TODO: unlock weapons as we go
+	current_weapons = all_weapons
+	emit_signal("weapons_updated", current_weapons, selected_weapon)
 
 
-func kill_cannonball(instance):
-	instance.queue_free()
+func _on_HUD_weapon_changed(index: int) -> void:
+	selected_weapon = index
+
+
+func _process(_delta):
+	if Input.is_action_pressed("fire") and reload_timer.is_stopped():
+		reload_timer.start(reload_time)
+		
+		weapons_manager = get_node_or_null("../Player/WeaponsManager")
+		weapons_manager.shoot()
+

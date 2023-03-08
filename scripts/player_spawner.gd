@@ -25,7 +25,11 @@ func add_character_model(new_model):
 	print("The player selected: ", new_model)
 	child_model = ship_models[new_model].instance()
 	add_child(child_model)
-		
+	
+	#var healthbar = child_model.get_node_or_null("HealthBar")
+	#if healthbar != null and is_instance_valid(healthbar):
+	#	child_model.remove_child(healthbar)
+	
 	# Hack around the fact that KinematicBody needs to have
 	# an immediate child as CollisionShape
 	var small_col = child_model.get_node_or_null("SmallCollisionShape")

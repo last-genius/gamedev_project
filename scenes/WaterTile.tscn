@@ -1,63 +1,33 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://shaders/render.shader" type="Shader" id=1]
-[ext_resource path="res://shaders/simulation.shader" type="Shader" id=2]
 
 [sub_resource type="Environment" id=29]
 background_mode = 1
 
-[sub_resource type="ViewportTexture" id=12]
-viewport_path = NodePath("CollisionViewport")
-
-[sub_resource type="ViewportTexture" id=11]
-viewport_path = NodePath("SimulationViewport")
-
-[sub_resource type="ShaderMaterial" id=30]
-resource_local_to_scene = true
-shader = ExtResource( 2 )
-shader_param/phase = 0.18
-shader_param/attenuation = 0.995
-shader_param/deltaUV = 2.3
-shader_param/size = 512.0
-shader_param/col_position = null
-shader_param/simulation_texture = SubResource( 11 )
-shader_param/collision_texture = SubResource( 12 )
-
 [sub_resource type="ViewportTexture" id=28]
 viewport_path = NodePath("CollisionViewport")
-
-[sub_resource type="ViewportTexture" id=23]
-viewport_path = NodePath("SimulationViewport")
 
 [sub_resource type="ShaderMaterial" id=31]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
-shader_param/amplitude = 1.0
 shader_param/murkiness = 0.25
 shader_param/shallow_water_color = Vector3( 0.27, 0.682, 1 )
 shader_param/deep_water_color = Vector3( 0, 0.0823, 0.34 )
-shader_param/waves_color = Vector3( 0.7, 0.7, 0.7 )
-shader_param/sim_tex = SubResource( 23 )
 shader_param/col_tex = SubResource( 28 )
 
 [sub_resource type="PlaneMesh" id=32]
-size = Vector2( 35, 35 )
+size = Vector2( 145, 145 )
 
 [sub_resource type="ViewportTexture" id=33]
 viewport_path = NodePath("CollisionViewport")
 
-[sub_resource type="ViewportTexture" id=34]
-viewport_path = NodePath("SimulationViewport")
-
 [sub_resource type="ShaderMaterial" id=35]
 resource_local_to_scene = true
 shader = ExtResource( 1 )
-shader_param/amplitude = 1.0
 shader_param/murkiness = 0.01
 shader_param/shallow_water_color = Vector3( 0.27, 0.682, 1 )
 shader_param/deep_water_color = Vector3( 0, 0.0823, 0.34 )
-shader_param/waves_color = Vector3( 0.7, 0.7, 0.7 )
-shader_param/sim_tex = SubResource( 34 )
 shader_param/col_tex = SubResource( 33 )
 
 [node name="WaterTile" type="Spatial"]
@@ -74,19 +44,6 @@ environment = SubResource( 29 )
 projection = 1
 size = 35.0
 far = 10.0
-
-[node name="SimulationViewport" type="Viewport" parent="."]
-size = Vector2( 512, 512 )
-handle_input_locally = false
-hdr = false
-render_target_clear_mode = 2
-render_target_update_mode = 3
-
-[node name="ColorRect" type="ColorRect" parent="SimulationViewport"]
-material = SubResource( 30 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 1 )
 
 [node name="Water" type="MeshInstance" parent="."]
 material_override = SubResource( 31 )

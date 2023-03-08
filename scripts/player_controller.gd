@@ -1,14 +1,14 @@
 extends KinematicBody
 
-export var interpolation_rate = 8
-export var rotation_rate = 2.1
+export var interpolation_rate := 8
+export var rotation_rate := 2.1
 
-export var shift_speed = 20
-export var speed = 14
+export var shift_speed := 20
+export var speed := 14
 
-export var req_rotation = 35
+export var req_rotation := 35
 
-export var velocity = Vector3.ZERO
+var velocity := Vector3.ZERO
 onready var camera: Camera = $"%Camera"
 
 func _enter_tree():
@@ -18,12 +18,12 @@ func _enter_tree():
 
 
 func _physics_process(delta):
-	var direction = Vector3.ZERO
-	var cam_basis = camera.global_transform.basis
+	var direction := Vector3.ZERO
+	var cam_basis := camera.global_transform.basis
 	var a: Quat
 	var b: Quat
 	
-	var input_vector = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var input_vector := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	direction += input_vector.x * cam_basis.x
 	direction += input_vector.y * cam_basis.z
 	
@@ -62,11 +62,11 @@ func _physics_process(delta):
 			
 			# If we are going straight, interpolate the velocity nicely
 			if movement_intensity > 0.99:
-				var interpolated = velocity.linear_interpolate(direction, interpolation_rate * delta)
+				var interpolated := velocity.linear_interpolate(direction, interpolation_rate * delta)
 				velocity.x = interpolated.x
 				velocity.z = interpolated.z
 			
-			var _collision_info = move_and_collide(velocity * delta)
+			var _collision_info := move_and_collide(velocity * delta)
 			
 			#if collision_info:
 			#	velocity = velocity.bounce(collision_info.normal)

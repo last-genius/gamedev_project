@@ -2,7 +2,7 @@ extends NavigationMeshInstance
 
 signal navmesh_ready
 
-var map
+var map: RID
 
 
 func _ready():
