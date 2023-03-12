@@ -23,4 +23,5 @@ func setup_navserver():
 	NavigationServer.region_set_navmesh(region, navmesh)
 
 	yield(get_tree(), "physics_frame")
+	yield(get_tree(), "physics_frame")
 	emit_signal("navmesh_ready")

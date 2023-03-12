@@ -31,13 +31,15 @@ func _ready() -> void:
 
 
 func _process(_delta: float):
-	var value = 1 - reload_timer.get_time_left() / reload_timer.get_wait_time()
-	if value < 1.0 and !fire_button_disabled:
-		fire_button_disabled = true
-		fire_button.text = "..."
-	
-	if value == 1.0:
+	var value: float
+	if reload_timer.is_stopped():
 		fire_button_disabled = false
+		value = 1.0
+	else:
+		value = 1 - reload_timer.get_time_left() / reload_timer.get_wait_time()
+		if value < 1.0 and !fire_button_disabled:
+			fire_button_disabled = true
+			fire_button.text = "..."
 		
 	reload_progress.value = value
 
@@ -67,3 +69,4 @@ func _on_FireButton_button_down() -> void:
 func finish_reload():
 	Input.action_release("fire")
 	fire_button.text = "Fire!"
+
