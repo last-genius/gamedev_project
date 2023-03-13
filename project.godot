@@ -27,13 +27,19 @@ _global_script_class_icons={
 [application]
 
 config/name="codename_pirate"
-run/main_scene="res://scenes/ui_startscreen.tscn"
+run/main_scene="res://Main.tscn"
 run/low_processor_mode=true
 config/icon="res://icon.png"
 
 [autoload]
 
 MainLoader="*res://scripts/main_loader.gd"
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/fullscreen=true
 
 [gui]
 

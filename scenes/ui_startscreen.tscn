@@ -4,11 +4,14 @@
 [ext_resource path="res://scripts/ui_startscreen.gd" type="Script" id=2]
 
 [node name="HUD" type="CanvasLayer"]
+pause_mode = 2
 script = ExtResource( 2 )
 
 [node name="Title" type="Label" parent="."]
 anchor_right = 1.0
 margin_top = 50.0
+margin_right = -797.0
+margin_bottom = 133.0
 custom_fonts/font = ExtResource( 1 )
 text = "WIP Pirate Game"
 align = 1
@@ -18,10 +21,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -175.0
-margin_top = 25.0
-margin_right = 175.0
-margin_bottom = 124.0
+margin_left = -573.0
+margin_top = 2.0
+margin_right = -223.0
+margin_bottom = 101.0
 custom_fonts/font = ExtResource( 1 )
 text = "Start Game"
 
@@ -30,10 +33,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -150.0
-margin_top = 150.0
-margin_right = 150.0
-margin_bottom = 44.5
+margin_left = -548.0
+margin_top = 127.0
+margin_right = -248.0
+margin_bottom = 226.0
 custom_fonts/font = ExtResource( 1 )
 text = "Options"
 

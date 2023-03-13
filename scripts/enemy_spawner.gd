@@ -1,6 +1,5 @@
 extends Spatial
 
-
 export(Dictionary) var ship_models
 export var enemy_number = 2
 export(Rect2) var rect_spawn

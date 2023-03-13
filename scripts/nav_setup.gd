@@ -8,7 +8,8 @@ var map: RID
 func _ready():
 	# Use call deferred to make sure the entire SceneTree Nodes are setup
 	# else yield on 'physics_frame' in a _ready() might get stuck
-	call_deferred("setup_navserver")
+	#call_deferred("setup_navserver")
+	pass
 
 
 func setup_navserver():

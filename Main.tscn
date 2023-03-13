@@ -1,7 +1,6 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://scripts/enemy_spawner.gd" type="Script" id=1]
-[ext_resource path="res://scenes/WaterTile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/ship_models/RacingBoat.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/camera_follow.gd" type="Script" id=4]
 [ext_resource path="res://materials/collision_red.material" type="Material" id=5]
@@ -10,10 +9,12 @@
 [ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scripts/drawing.gd" type="Script" id=9]
 [ext_resource path="res://scripts/combat_system.gd" type="Script" id=10]
+[ext_resource path="res://scenes/ui_startscreen.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scripts/nav_setup.gd" type="Script" id=12]
 [ext_resource path="res://materials/bad_sand.tres" type="Material" id=13]
 [ext_resource path="res://items/weapons/medium_cannon.tres" type="Resource" id=14]
 [ext_resource path="res://items/weapons/large_cannon.tres" type="Resource" id=15]
+[ext_resource path="res://scripts/water_manager.gd" type="Script" id=16]
 
 [sub_resource type="SpatialMaterial" id=34]
 albedo_color = Color( 0.619608, 0, 0, 1 )
@@ -114,7 +115,19 @@ all_weapons = [ ExtResource( 14 ), ExtResource( 15 ) ]
 unique_name_in_owner = true
 one_shot = true
 
-[node name="WaterTile" parent="PlayerSpawner" instance=ExtResource( 2 )]
+[node name="WaterManager" type="Spatial" parent="PlayerSpawner"]
+script = ExtResource( 16 )
+
+[node name="Camera Pivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, 12, 0 )
+
+[node name="Camera" type="Camera" parent="Camera Pivot"]
+unique_name_in_owner = true
+transform = Transform( 0.857667, 0.322211, -0.400734, 0.463869, -0.148532, 0.873364, 0.221885, -0.934944, -0.276854, -12.7632, 2.80657, 1.62037 )
+cull_mask = 524287
+current = true
+far = 120.0
+script = ExtResource( 4 )
 
 [node name="EnemySpawner" type="Spatial" parent="."]
 script = ExtResource( 1 )
@@ -123,16 +136,6 @@ ship_models = {
 }
 rect_spawn = Rect2( -45, -45, 90, 90 )
 sail_material = SubResource( 34 )
-
-[node name="Camera Pivot" type="Spatial" parent="."]
-
-[node name="Camera" type="Camera" parent="Camera Pivot"]
-unique_name_in_owner = true
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
-cull_mask = 524287
-current = true
-far = 120.0
-script = ExtResource( 4 )
 
 [node name="Terrain" type="NavigationMeshInstance" parent="."]
 unique_name_in_owner = true
@@ -175,22 +178,11 @@ shape = SubResource( 29 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0 )
 mesh = SubResource( 32 )
 
-[node name="CSGBox" type="CSGBox" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0 )
-visible = false
-width = 36.0
-height = 12.0
-depth = 36.0
-
-[node name="CSGBox2" type="CSGBox" parent="CSGBox"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
-operation = 2
-width = 34.0
-height = 10.0
-depth = 34.0
+[node name="StartScreen" parent="." instance=ExtResource( 11 )]
 
 [node name="HUD" parent="." instance=ExtResource( 8 )]
 unique_name_in_owner = true
+visible = false
 
 [node name="InGameDraw" type="Control" parent="HUD"]
 unique_name_in_owner = true
