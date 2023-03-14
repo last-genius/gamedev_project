@@ -6,10 +6,10 @@ signal weapon_changed
 onready var spawner = $"../PlayerSpawner"
 onready var combat_sys = spawner.get_node("CombatSystem")
 onready var reload_timer: Timer = combat_sys.get_node("ReloadTimer")
-onready var option_button: OptionButton = $"%OptionButton"
 onready var weapon_selection: OptionButton = $"%WeaponSelection"
 onready var reload_progress: TextureProgress = $"%ReloadProgress"
 onready var fire_button: Button = $"%FireButton"
+onready var death_panel: Panel = $DeathPanel
 var fire_button_disabled = false
 
 
@@ -17,17 +17,7 @@ func _ready() -> void:
 	combat_sys.connect("weapons_updated", self, "update_weapons")
 	# warning-ignore:return_value_discarded
 	reload_timer.connect("timeout", self, "finish_reload")
-
-	# Fill up the option button with the ship models
-	print("Models to select from: ", spawner.ship_models)	
-	var keys = spawner.ship_models.keys()
-	
-	for i in keys.size():
-		var model = keys[i]
-		option_button.add_item(model, i)
-		
-		if model == spawner.selected_model:
-			option_button.select(i)	
+	spawner.connect("died", death_panel, "reveal")
 
 
 func _process(_delta: float):
@@ -51,7 +41,7 @@ func update_weapons(weapons: Array, selected_weapon: int):
 		weapon_selection.add_icon_item(weapon.icon, weapon.name, i)
 		
 		if i == selected_weapon:
-			option_button.select(i)
+			weapon_selection.select(i)
 
 
 func _on_OptionButton_item_selected(index: int) -> void:

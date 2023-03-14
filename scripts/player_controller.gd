@@ -1,12 +1,12 @@
 extends KinematicBody
 
+signal died
+
 export var interpolation_rate := 8
-export var rotation_rate := 2.1
+export var rotation_rate := 0.2
 
 export var shift_speed := 20
 export var speed := 14
-
-export var req_rotation := 35
 
 var velocity := Vector3.ZERO
 onready var camera: Camera = $"%Camera"
@@ -38,38 +38,33 @@ func _physics_process(delta):
 		b = Quat(global_transform.looking_at(new_position, Vector3.UP).basis)
 		global_transform.basis = Basis(a.slerp(b, rotation_rate * delta))
 		
-		# Increase movement intensity as we get closer to the right rotation
-		var movement_intensity: float = pow(abs((clamp(rad2deg(a.angle_to(b)), 0, req_rotation) / req_rotation) - 1), 2)
-		
 		# Reset height
 		if abs(global_translation.y) > 0.001:
 			global_translation.y = 0
+			
+		# Speed us up if we are sprinting
+		if Input.is_action_pressed("sprint"):
+			direction *= shift_speed
+		else:
+			direction *= speed
 		
-		# Only move if we have < req_rotation to go
-		if movement_intensity > 0.01:
-			direction *= movement_intensity
-			
-			#print(rad2deg(a.angle_to(b)), " | ", movement_intensity)
-			
-			# Speed us up if we are sprinting
-			if Input.is_action_pressed("sprint"):
-				direction *= shift_speed
-			else:
-				direction *= speed
-			
-			velocity.x = direction.x
-			velocity.z = direction.z
-			
-			# If we are going straight, interpolate the velocity nicely
-			if movement_intensity > 0.99:
-				var interpolated := velocity.linear_interpolate(direction, interpolation_rate * delta)
-				velocity.x = interpolated.x
-				velocity.z = interpolated.z
-			
-			var _collision_info := move_and_collide(velocity * delta)
+		velocity.x = direction.x
+		velocity.z = direction.z
+		
+		var interpolated := velocity.linear_interpolate(direction, interpolation_rate * delta)
+		velocity.x = interpolated.x
+		velocity.z = interpolated.z
+		
+		var _collision_info := move_and_collide(velocity * delta)
 			
 			#if collision_info:
 			#	velocity = velocity.bounce(collision_info.normal)
 	
 	#sim_tex.material.set_shader_param("col_position", Vector2(global_translation.x, global_translation.z)/10)
 	#print(sim_tex.material.get_shader_param("col_position"))
+
+
+func process_death():
+	
+	emit_signal("died")
+	print("Player died...")

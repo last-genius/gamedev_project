@@ -27,11 +27,14 @@ func finished_curve(_anim_name="Explosion"):
 	emit_signal("finished_curve", self)
 
 
-func _on_Area_area_entered(area: Area) -> void:
-	if (area.is_in_group("enemies")):
-		had_collision = true
-		#print("Exploding on impact with ", area)
-		
-		$StylizedExplosion.visible = true
-		$StylizedExplosion/AnimationPlayer.play("Explosion")
-		$cannonBall.visible = false
+func add_area_group(group_name: String):
+	$Area.add_to_group(group_name)
+
+
+func explode():
+	had_collision = true
+	#print("Exploding on impact with ", area)
+	
+	$StylizedExplosion.visible = true
+	$StylizedExplosion/AnimationPlayer.play("Explosion")
+	$cannonBall.visible = false

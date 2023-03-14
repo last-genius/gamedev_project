@@ -3,6 +3,8 @@ extends "res://scripts/player_controller.gd"
 
 export(Dictionary) var ship_models
 onready var selected_model = ship_models.keys()[0]
+
+var area_script = preload("res://scripts/new_area.gd")
 var child_model
 
 
@@ -17,6 +19,10 @@ func replace_character_model(new_model):
 	var col = get_node_or_null("CollisionShape")
 	if col != null and is_instance_valid(col):
 		col.queue_free()
+		
+	var area = get_node_or_null("Area")
+	if area != null and is_instance_valid(area):
+		area.queue_free()
 	
 	# Spawn the new model at the needed coordinates
 	add_character_model(new_model)
@@ -32,9 +38,15 @@ func add_character_model(new_model):
 	
 	# Hack around the fact that KinematicBody needs to have
 	# an immediate child as CollisionShape
+	var new_area = Area.new()
+	new_area.name = "Area"
+	new_area.set_script(area_script)
+	add_child(new_area)
+	
 	var small_col = child_model.get_node_or_null("SmallCollisionShape")
 	if small_col != null and is_instance_valid(small_col):
 		child_model.remove_child(small_col)
+	new_area.add_child(small_col)
 	var col = child_model.get_node("CollisionShape")
 	child_model.remove_child(col)
 	add_child(col)

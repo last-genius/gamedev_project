@@ -24,12 +24,13 @@ func calculate_curves():
 	return curves_arr
 
 
-func shoot():
+func shoot(group_name: String):
 	calculate_curves()
 	curves_arr = curves_arr.duplicate()
 	
 	for curve in curves_arr:
 		var new_ball = cannonball_model.instance()
+		new_ball.add_area_group(group_name + "_projectiles")
 		new_ball.curve = curve
 		new_ball.connect("finished_curve", self, "kill_cannonball")
 		add_child(new_ball)

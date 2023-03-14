@@ -1,6 +1,7 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://scripts/enemy_spawner.gd" type="Script" id=1]
+[ext_resource path="res://scenes/health.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/ship_models/RacingBoat.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/camera_follow.gd" type="Script" id=4]
 [ext_resource path="res://materials/collision_red.material" type="Material" id=5]
@@ -100,6 +101,7 @@ transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0
 [node name="PlayerSpawner" type="KinematicBody" parent="." groups=["player"]]
 unique_name_in_owner = true
 script = ExtResource( 6 )
+rotation_rate = 2.1
 ship_models = {
 "Pirate Ship": ExtResource( 7 ),
 "Racing Boat": ExtResource( 3 )
@@ -114,6 +116,10 @@ all_weapons = [ ExtResource( 14 ), ExtResource( 15 ) ]
 [node name="ReloadTimer" type="Timer" parent="PlayerSpawner/CombatSystem"]
 unique_name_in_owner = true
 one_shot = true
+
+[node name="Health" parent="PlayerSpawner" instance=ExtResource( 2 )]
+max_health = 30
+enemy_group = "enemy"
 
 [node name="WaterManager" type="Spatial" parent="PlayerSpawner"]
 script = ExtResource( 16 )

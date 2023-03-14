@@ -2,7 +2,7 @@ extends Area
 
 func _ready():
 # warning-ignore:return_value_discarded
-	self.connect("area_entered", get_parent(), "take_hit")
+	self.connect("area_entered", get_parent().get_node("Health"), "take_hit")
 # warning-ignore:return_value_discarded
 	get_parent().connect("died", self, "death_disable")
 	

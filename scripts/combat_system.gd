@@ -35,5 +35,5 @@ func _process(_delta):
 		reload_timer.start(reload_time)
 		
 		weapons_manager = get_node_or_null("../Player/WeaponsManager")
-		weapons_manager.shoot()
+		weapons_manager.shoot("player")
 

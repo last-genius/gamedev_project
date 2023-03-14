@@ -3,13 +3,14 @@ extends Spatial
 
 signal died
 
+onready var reload_timer: SceneTreeTimer
+export var reload_time := 3.0
+var weapons_manager: Spatial
+
 var terrain: NavigationMeshInstance
-var max_health := 20
-var health := max_health
 var speed := 6.0
 var interpolation_rate := 8
-var rotation_rate := 2.1
-var req_rotation := 35
+var rotation_rate := 0.2
 var path = []
 
 const FRAMES_BETWEEN_UPDATES := 60
@@ -54,6 +55,7 @@ func _physics_process(delta: float):
 			print("started the path to random location ", target_point)
 	elif current_state == STATES.FIGHTING:
 		if _frame_counter == 0:
+			shoot()
 			path = NavigationServer.map_get_path(terrain.map, global_translation, player_body.global_translation + circle_point, true)
 		_frame_counter = wrapi(_frame_counter + 1, 0, FRAMES_BETWEEN_UPDATES)
 	
@@ -72,29 +74,8 @@ func _physics_process(delta: float):
 			var a := Quat(global_transform.basis)
 			var b := Quat(global_transform.looking_at(global_translation + direction, Vector3.UP).basis)
 			global_transform.basis = Basis(a.slerp(b, rotation_rate * delta))
-			
-			# Increase movement intensity as we get closer to the right rotation
-			var movement_intensity: float = pow(abs((clamp(rad2deg(a.angle_to(b)), 0, req_rotation) / req_rotation) - 1), 2)
-			
-			# Only move if we have < req_rotation to go
-			if movement_intensity > 0.01:
-				direction *= movement_intensity
 				
-				global_translation += direction * velocity
-
-
-func take_hit(area):
-	if area.is_in_group("projectiles"):
-		var damage = area.get_parent().damage
-		print("took ", damage, " damage")
-		
-		health -= damage
-		if health <= 0:
-			process_death()
-		else:
-			if !$HealthBar.visible:
-				$HealthBar.visible = true
-			$HealthBar.update_health(health, max_health)
+			global_translation += direction * velocity
 
 
 func process_death():
@@ -126,3 +107,11 @@ func player_detected(body: Node):
 	if body.is_in_group("player"):
 		current_state = STATES.FIGHTING
 		player_body = body
+
+
+func shoot():
+	if reload_timer == null or reload_timer.get_time_left() <= 0.0:
+		reload_timer = get_tree().create_timer(reload_time)
+			
+		weapons_manager = get_node_or_null("WeaponsManager")
+		weapons_manager.shoot("enemy")

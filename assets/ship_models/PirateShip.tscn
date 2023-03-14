@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://scenes/healthbar.tscn" type="PackedScene" id=1]
 [ext_resource path="res://materials/collision_red.material" type="Material" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://scripts/weapons_manager.gd" type="Script" id=5]
 [ext_resource path="res://assets/models/cannon_ball.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scripts/detection_area.gd" type="Script" id=7]
+[ext_resource path="res://scenes/health.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CapsuleShape" id=15]
 radius = 3.4
@@ -480,9 +481,11 @@ layers = 524288
 material_override = ExtResource( 2 )
 mesh = SubResource( 6 )
 
+[node name="Health" parent="." instance=ExtResource( 8 )]
+
 [node name="HealthBar" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
-visible = false
+health_node_path = NodePath("../Health")
 
 [node name="StylizedExplosion" parent="." instance=ExtResource( 3 )]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2, 0 )
