@@ -14,6 +14,14 @@ shader = ExtResource( 1 )
 shader_param/murkiness = 0.25
 shader_param/shallow_water_color = Vector3( 0.27, 0.682, 1 )
 shader_param/deep_water_color = Vector3( 0, 0.0823, 0.34 )
+shader_param/water_color = Color( 0.04, 0.38, 0.88, 1 )
+shader_param/water2_color = Color( 0.04, 0.35, 0.78, 1 )
+shader_param/foam_color = Color( 0.8125, 0.9609, 0.9648, 1 )
+shader_param/distortion_speed = 2.0
+shader_param/edge_scale = 2.0
+shader_param/near = 1.0
+shader_param/far = 100.0
+shader_param/edge_color = Vector3( 1, 1, 1 )
 shader_param/col_tex = SubResource( 28 )
 
 [sub_resource type="PlaneMesh" id=32]
@@ -28,6 +36,14 @@ shader = ExtResource( 1 )
 shader_param/murkiness = 0.01
 shader_param/shallow_water_color = Vector3( 0.27, 0.682, 1 )
 shader_param/deep_water_color = Vector3( 0, 0.0823, 0.34 )
+shader_param/water_color = Color( 0.04, 0.38, 0.88, 1 )
+shader_param/water2_color = Color( 0.04, 0.35, 0.78, 1 )
+shader_param/foam_color = Color( 0.8125, 0.9609, 0.9648, 1 )
+shader_param/distortion_speed = 10.0
+shader_param/edge_scale = 2.0
+shader_param/near = 1.0
+shader_param/far = 100.0
+shader_param/edge_color = Vector3( 1, 1, 1 )
 shader_param/col_tex = SubResource( 33 )
 
 [node name="WaterTile" type="Spatial"]
