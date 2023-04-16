@@ -13,18 +13,8 @@ uniform vec4 water2_color: hint_color =  vec4(0.04, 0.35, 0.78, 1.0);
 uniform vec4 foam_color: hint_color = vec4(0.8125, 0.9609, 0.9648, 1.0);
 uniform float distortion_speed = 10.0;
 
-uniform float edge_scale = 2.0;
-uniform float near = 1.0;
-uniform float far = 100.0;
-uniform vec3 edge_color = vec3(1.0, 1.0, 1.0);
-
 const float M_2PI = 6.283185307;
 const float M_6PI = 18.84955592;
-
-float edge(float depth) {
-	depth = 2.0*depth - 1.0;
-	return near * far / (far + depth * (near-far));
-}
 
 float random(vec2 uv) {
     return fract(sin(dot(uv.xy,
@@ -157,7 +147,7 @@ float waterlayer(vec2 uv)
 // Procedural texture generation for the water
 vec3 water(vec2 uv, vec3 cdir, float iTime)
 {
-    uv *= vec2(0.25);
+    uv *= vec2(0.04);
 	uv += fbm(uv) * 0.2;
 
     // Parallax height distortion with two directional waves at

@@ -21,8 +21,12 @@ var current_state = STATES.TRAVELLING
 var player_body: KinematicBody
 var circle_point: Vector3
 
+var stats := {}
+
 
 func start_pathfinding():
+	$Health.max_health = stats["health"]
+	$Health.health = stats["health"]
 	set_physics_process(true)
 	circle_point = _generate_random_circle_point(10.0)
 
@@ -45,15 +49,18 @@ func _physics_process(delta: float):
 	var direction := Vector3.ZERO
 	var velocity := delta * speed
 	
+	# Simple AI behavior
 	if current_state == STATES.DYING:
 		return
 	elif current_state == STATES.TRAVELLING:
+		# Make up a random location to go to if we haven't yet encountered the player
 		if path.size() == 0:
 			var random_location = _generate_random_location(Vector2(global_translation.x,global_translation.z), 100)
 			var target_point = NavigationServer.map_get_closest_point(terrain.map, random_location)
 			path = NavigationServer.map_get_path(terrain.map, global_translation, target_point, true)
 			print("started the path to random location ", target_point)
 	elif current_state == STATES.FIGHTING:
+		# Shoot every X frames
 		if _frame_counter == 0:
 			shoot()
 			path = NavigationServer.map_get_path(terrain.map, global_translation, player_body.global_translation + circle_point, true)
@@ -78,10 +85,15 @@ func _physics_process(delta: float):
 			global_translation += direction * velocity
 
 
+# A sequence of death animations and cleanup:
+# 1. `process_death` - explosion
+# 2. `drowning_animation` - drowning below the surface
+# 3. `complete_death` - remove the enemy node
 func process_death():
 	$HealthBar.visible = false
 	current_state = STATES.DYING
 	emit_signal("died")
+	Events.emit_signal("enemy_killed", stats, true)
 	
 	# Play the death animation
 	$StylizedExplosion.visible = true
@@ -103,6 +115,7 @@ func complete_death(_anim_name):
 	queue_free()
 
 
+# Connected to the body_entered signal on the child area
 func player_detected(body: Node):
 	if body.is_in_group("player"):
 		current_state = STATES.FIGHTING

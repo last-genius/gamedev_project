@@ -10,6 +10,15 @@ onready var weapon_selection: OptionButton = $"%WeaponSelection"
 onready var reload_progress: TextureProgress = $"%ReloadProgress"
 onready var fire_button: Button = $"%FireButton"
 onready var death_panel: Panel = $DeathPanel
+
+onready var health_label: Label = $HealthLabel
+onready var crew_label: Label = $CrewLabel
+onready var speed_label: Label = $SpeedLabel
+onready var gold_label: Label = $GoldLabel
+onready var wood_label: Label = $WoodLabel
+onready var stats = {"health": health_label, "crew": crew_label, 
+			"speed": speed_label, "gold": gold_label, "wood": wood_label}
+
 var fire_button_disabled = false
 
 
@@ -18,6 +27,10 @@ func _ready() -> void:
 	# warning-ignore:return_value_discarded
 	reload_timer.connect("timeout", self, "finish_reload")
 	spawner.connect("died", death_panel, "reveal")
+	Events.connect("stat_changed", self, "on_stats_change")
+	
+	for stat in Events.stats:
+		on_stats_change(stat, Events.stats[stat])
 
 
 func _process(_delta: float):
@@ -54,6 +67,10 @@ func _on_WeaponSelection_item_selected(index: int) -> void:
 
 func _on_FireButton_button_down() -> void:
 	Input.action_press("fire")
+	
+
+func on_stats_change(stat_name: String, value: int):
+	stats[stat_name].text = str(value)
 	
 
 func finish_reload():

@@ -27,6 +27,7 @@ func replace_character_model(new_model):
 	# Spawn the new model at the needed coordinates
 	add_character_model(new_model)
 
+
 func add_character_model(new_model):
 	print("The player selected: ", new_model)
 	child_model = ship_models[new_model].instance()
@@ -55,6 +56,7 @@ func add_character_model(new_model):
 func _on_HUD_model_changed(new_model) -> void:
 	selected_model = new_model
 	replace_character_model(new_model)
+	
 	
 
 # A function to enable selection of the current model
