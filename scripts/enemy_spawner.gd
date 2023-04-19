@@ -1,14 +1,17 @@
 extends Spatial
 
 var ship_model = preload("res://assets/ship_models/PirateShip.tscn")
-export var enemy_number = 2
-export(Rect2) var rect_spawn
-export(SpatialMaterial) var sail_material
-onready var terrain: NavigationMeshInstance = $"%Terrain"
-var enemy_ships: Array
 var enemy_script = preload("res://scripts/enemy.gd")
 var area_script = preload("res://scripts/new_area.gd")
+
+export(int) var enemy_number = 2
+export(int) var spawn_radius
+export(SpatialMaterial) var sail_material
+
+onready var terrain: NavigationMeshInstance = $"%Terrain"
+var enemy_ships: Array
 var difficulty := 1
+
 
 func _ready() -> void:
 	# warning-ignore:return_value_discarded
@@ -20,15 +23,17 @@ func initial_spawn():
 		spawn()
 
 
-func death_spawn():
+func death_spawn(past_location):
 	difficulty += 1
-	spawn()
+	spawn(past_location)
 	
 
-func spawn():
-	var random_location: Vector3 = Vector3.ZERO
-	random_location.x = MainLoader.random.randi_range(rect_spawn.position.x, rect_spawn.position.x + rect_spawn.size.x)
-	random_location.z = MainLoader.random.randi_range(rect_spawn.position.y, rect_spawn.position.y + rect_spawn.size.y)
+func spawn(past_location := Vector3.ZERO):
+	var random_location := past_location
+	var random_sign = (MainLoader.random.randi_range(0, 1) * 2)-1
+	print(random_sign)
+	random_location.x += MainLoader.random.randi_range(0, spawn_radius) * ((MainLoader.random.randi_range(0, 1) * 2)-1)
+	random_location.z += MainLoader.random.randi_range(0, spawn_radius) * ((MainLoader.random.randi_range(0, 1) * 2)-1)
 	
 	# Get a legal point on the navmesh closest to the random location
 	var spawn_point = NavigationServer.map_get_closest_point(terrain.map, random_location)
@@ -61,7 +66,7 @@ func spawn_model(model: PackedScene, coords: Vector3):
 			sail_model.material_override = sail_material
 	
 	# TODO: Set up enemy combat params class
-	var stats = {"health": 10 + (difficulty * 2.5), "crew": 10 + difficulty,
+	var stats = {"health": 5 + difficulty, "crew": 4 + difficulty,
 			"speed": 10 + (difficulty * 0.5), "gold": difficulty, "wood": difficulty}
 	new_model.stats = stats.duplicate(true)
 	new_model.start_pathfinding()

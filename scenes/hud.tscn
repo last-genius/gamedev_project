@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://scripts/hud.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts and themes/smaller_font.tres" type="DynamicFont" id=2]
@@ -18,6 +18,9 @@
 [ext_resource path="res://assets/sprites/fastForward.png" type="Texture" id=16]
 [ext_resource path="res://assets/sprites/coin.png" type="Texture" id=17]
 [ext_resource path="res://assets/sprites/resource_lumber.png" type="Texture" id=18]
+[ext_resource path="res://assets/sprites/shoppingCart.png" type="Texture" id=19]
+[ext_resource path="res://scripts/shop_panel.gd" type="Script" id=20]
+[ext_resource path="res://assets/sprites/cross.png" type="Texture" id=21]
 
 [sub_resource type="DynamicFont" id=3]
 size = 112
@@ -51,6 +54,9 @@ font_data = ExtResource( 5 )
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0, 0, 0, 0.352941 )
 
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.596078, 0.286275, 0.211765, 1 )
+
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 1 )
 
@@ -67,7 +73,44 @@ custom_fonts/font = SubResource( 3 )
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 5 )
 custom_styles/normal = SubResource( 2 )
-text = "Fire!"
+text = "Fire"
+
+[node name="BoardRect" type="ColorRect" parent="."]
+anchor_left = 0.271
+anchor_top = 0.919
+anchor_right = 0.271
+anchor_bottom = 0.919
+margin_left = -0.320007
+margin_top = -48.52
+margin_right = 263.68
+margin_bottom = 44.48
+color = Color( 0.337255, 0.0941176, 0.0352941, 1 )
+
+[node name="BoardLabel" type="RichTextLabel" parent="."]
+margin_left = 576.0
+margin_top = 952.0
+margin_right = 776.0
+margin_bottom = 1035.0
+bbcode_enabled = true
+bbcode_text = "[color=green]24[/color][color=#984936] vs. [/color][color=red]24[/color]"
+text = "24 vs. 24"
+scroll_active = false
+
+[node name="BoardButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 472.0
+margin_top = -136.0
+margin_right = 731.0
+margin_bottom = 123.0
+rect_scale = Vector2( 0.36, 0.36 )
+theme = ExtResource( 9 )
+custom_fonts/font = SubResource( 3 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/normal = SubResource( 2 )
+text = "Board"
 
 [node name="ReloadProgress" type="TextureProgress" parent="."]
 unique_name_in_owner = true
@@ -187,24 +230,75 @@ margin_top = -204.0
 margin_right = 124.0
 margin_bottom = -121.0
 text = "GAME OVER"
+align = 1
 
 [node name="PauseButton" type="Button" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -72.0
+margin_left = -96.0
 margin_top = 16.0
-margin_right = 68.0
-margin_bottom = 136.0
+margin_right = 105.0
+margin_bottom = 216.0
 rect_scale = Vector2( 0.4, 0.4 )
 icon = ExtResource( 3 )
 icon_align = 1
+expand_icon = true
+
+[node name="ShopButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -200.0
+margin_top = 16.0
+margin_bottom = 216.0
+rect_scale = Vector2( 0.4, 0.4 )
+icon = ExtResource( 19 )
+icon_align = 1
+expand_icon = true
+
+[node name="ShopPanel" type="Panel" parent="."]
+pause_mode = 2
+visible = false
+margin_left = 128.0
+margin_top = 128.0
+margin_right = 1792.0
+margin_bottom = 896.0
+custom_styles/panel = SubResource( 7 )
+script = ExtResource( 20 )
+
+[node name="ExitButton" type="Button" parent="ShopPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -832.0
+margin_top = -384.0
+margin_right = -692.0
+margin_bottom = -268.0
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = ExtResource( 2 )
+icon = ExtResource( 21 )
+align = 0
+icon_align = 1
+
+[node name="DeathLabel" type="Label" parent="ShopPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -120.0
+margin_top = -368.0
+margin_right = 124.0
+margin_bottom = -285.0
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "SHOP"
+align = 1
 
 [node name="PlayerHealth" type="TextureProgress" parent="."]
 unique_name_in_owner = true
 margin_left = 16.0
-margin_top = 16.0
+margin_top = 23.0
 margin_right = 516.0
-margin_bottom = 116.0
+margin_bottom = 126.0
 rect_scale = Vector2( 0.7, 0.7 )
 value = 100.0
 texture_under = ExtResource( 10 )
@@ -214,6 +308,20 @@ tint_under = Color( 0.2, 0.2, 0.2, 1 )
 tint_progress = Color( 0, 1, 0, 1 )
 script = ExtResource( 12 )
 texture_progress_path = NodePath(".")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 384.0
+margin_top = 8.0
+margin_right = 912.0
+margin_bottom = 96.0
+color = Color( 1, 1, 1, 0.352941 )
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = 1344.0
+margin_top = 8.0
+margin_right = 1672.0
+margin_bottom = 96.0
+color = Color( 1, 1, 1, 0.352941 )
 
 [node name="HealthLabel" type="Label" parent="."]
 margin_left = 486.4
@@ -228,10 +336,10 @@ scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 14 )
 
 [node name="CrewLabel" type="Label" parent="."]
-margin_left = 662.4
-margin_top = 12.8
-margin_right = 713.4
-margin_bottom = 95.8
+margin_left = 656.0
+margin_top = 13.0
+margin_right = 707.0
+margin_bottom = 96.0
 text = "24"
 
 [node name="CrewIcon" type="Sprite" parent="."]
@@ -240,43 +348,48 @@ scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 15 )
 
 [node name="SpeedLabel" type="Label" parent="."]
-margin_left = 814.4
-margin_top = 12.8
-margin_right = 865.4
-margin_bottom = 95.8
+margin_left = 840.0
+margin_top = 13.0
+margin_right = 891.0
+margin_bottom = 96.0
 text = "24"
 
 [node name="SpeedIcon" type="Sprite" parent="."]
-position = Vector2( 782.4, 52.8 )
-scale = Vector2( 0.7, 0.7 )
+position = Vector2( 792, 48 )
+scale = Vector2( 0.989999, 0.989999 )
 texture = ExtResource( 16 )
 
 [node name="GoldLabel" type="Label" parent="."]
-margin_left = 1579.0
-margin_right = 1630.0
-margin_bottom = 83.0
+margin_left = 1441.0
+margin_top = 14.0
+margin_right = 1492.0
+margin_bottom = 97.0
 text = "24"
 
 [node name="GoldIcon" type="Sprite" parent="."]
-position = Vector2( 1544, 40 )
-scale = Vector2( 0.8, 0.8 )
+position = Vector2( 1398, 53 )
+scale = Vector2( 1.08, 1.08 )
 texture = ExtResource( 17 )
 
 [node name="WoodLabel" type="Label" parent="."]
-margin_left = 1739.0
-margin_right = 1790.0
-margin_bottom = 83.0
+margin_left = 1602.0
+margin_top = 14.0
+margin_right = 1653.0
+margin_bottom = 97.0
 text = "24"
 
 [node name="WoodIcon" type="Sprite" parent="."]
-position = Vector2( 1704, 40 )
-scale = Vector2( 0.514062, 0.514062 )
+position = Vector2( 1562.89, 53.0001 )
+scale = Vector2( 0.595507, 0.562498 )
 texture = ExtResource( 18 )
 
 [connection signal="button_down" from="FireButton" to="." method="_on_FireButton_button_down"]
+[connection signal="button_down" from="BoardButton" to="." method="_on_BoardButton_button_down"]
 [connection signal="item_selected" from="WeaponSelection" to="." method="_on_WeaponSelection_item_selected"]
 [connection signal="button_down" from="PausePanel/ContinueButton" to="PausePanel" method="_on_ContinueButton_button_down"]
 [connection signal="button_down" from="PausePanel/ExitButton" to="PausePanel" method="_on_ExitButton_button_down"]
 [connection signal="button_down" from="DeathPanel/RestartButton" to="DeathPanel" method="_on_RestartButton_button_down"]
 [connection signal="button_down" from="DeathPanel/ExitButton" to="DeathPanel" method="_on_ExitButton_button_down"]
 [connection signal="button_down" from="PauseButton" to="PausePanel" method="_on_PauseButton_button_down"]
+[connection signal="button_down" from="ShopButton" to="ShopPanel" method="reveal"]
+[connection signal="button_down" from="ShopPanel/ExitButton" to="ShopPanel" method="_on_ExitButton_button_down"]

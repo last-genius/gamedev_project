@@ -30,6 +30,7 @@ Button/colors/font_color_disabled = Color( 0.253906, 0.253906, 0.253906, 0.2 )
 Button/colors/font_color_focus = Color( 0.337255, 0.0941176, 0.0352941, 1 )
 Button/colors/font_color_hover = Color( 0.337255, 0.0941176, 0.0352941, 1 )
 Button/colors/font_color_pressed = Color( 1, 0.843137, 0, 1 )
+Button/styles/disabled = null
 Button/styles/hover = ExtResource( 3 )
 Button/styles/normal = ExtResource( 2 )
 Button/styles/pressed = SubResource( 7 )

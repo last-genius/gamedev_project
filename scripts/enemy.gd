@@ -1,9 +1,10 @@
 class_name Enemy
 extends Spatial
 
-signal died
+signal died(past_location)
 
 onready var reload_timer: SceneTreeTimer
+onready var health: Health = $Health
 export var reload_time := 3.0
 var weapons_manager: Spatial
 
@@ -25,8 +26,10 @@ var stats := {}
 
 
 func start_pathfinding():
-	$Health.max_health = stats["health"]
-	$Health.health = stats["health"]
+	health = $Health
+	print("Spawned with health ", stats["health"])
+	health.max_health = stats["health"]
+	health.health = stats["health"]
 	set_physics_process(true)
 	circle_point = _generate_random_circle_point(10.0)
 
@@ -89,22 +92,25 @@ func _physics_process(delta: float):
 # 1. `process_death` - explosion
 # 2. `drowning_animation` - drowning below the surface
 # 3. `complete_death` - remove the enemy node
-func process_death():
+func process_death(was_destroyed=true):
 	$HealthBar.visible = false
 	current_state = STATES.DYING
-	emit_signal("died")
-	Events.emit_signal("enemy_killed", stats, true)
+	emit_signal("died", global_translation)
+	Events.emit_signal("enemy_killed", stats, was_destroyed)
 	
-	# Play the death animation
-	$StylizedExplosion.visible = true
-	# warning-ignore:return_value_discarded
-	$StylizedExplosion/AnimationPlayer.connect("animation_finished", self, "drowning_animation")
-	$StylizedExplosion/AnimationPlayer.play("Explosion")
+	if was_destroyed:
+		# Play the death animation
+		$StylizedExplosion.visible = true
+		# warning-ignore:return_value_discarded
+		$StylizedExplosion/AnimationPlayer.connect("animation_finished", self, "drowning_animation")
+		$StylizedExplosion/AnimationPlayer.play("Explosion")
+	else:
+		drowning_animation()
 	$model.visible = false
 	$ship_wreck.visible = true
 
 
-func drowning_animation(_anim_name):
+func drowning_animation(_anim_name="Explosion"):
 	$StylizedExplosion.visible = false
 	# warning-ignore:return_value_discarded
 	$AnimationPlayer.connect("animation_finished", self, "complete_death")

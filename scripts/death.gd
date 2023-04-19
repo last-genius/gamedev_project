@@ -1,7 +1,7 @@
 extends Panel
 
 
-func reveal():
+func reveal(_past_location):
 	get_tree().paused = true
 	visible = true
 

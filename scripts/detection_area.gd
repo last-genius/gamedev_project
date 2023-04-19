@@ -9,6 +9,6 @@ func setup():
 		parent.connect("died", self, "death_disable")
 	
 
-func death_disable():
+func death_disable(_past_location):
 	set_deferred("monitorable", false)
 	set_deferred("monitoring", false)

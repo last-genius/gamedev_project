@@ -118,7 +118,7 @@ unique_name_in_owner = true
 one_shot = true
 
 [node name="Health" parent="PlayerSpawner" instance=ExtResource( 2 )]
-max_health = 30
+max_health = 40
 enemy_group = "enemy"
 
 [node name="WaterManager" type="Spatial" parent="PlayerSpawner"]
@@ -138,7 +138,7 @@ script = ExtResource( 4 )
 [node name="EnemySpawner" type="Spatial" parent="."]
 script = ExtResource( 1 )
 enemy_number = 3
-rect_spawn = Rect2( -60, -60, 120, 120 )
+spawn_radius = 60
 sail_material = SubResource( 34 )
 
 [node name="Terrain" type="NavigationMeshInstance" parent="."]

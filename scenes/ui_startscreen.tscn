@@ -20,7 +20,7 @@ margin_top = 50.0
 margin_right = -797.0
 margin_bottom = 133.0
 custom_fonts/font = SubResource( 1 )
-text = "WIP Pirate Game"
+text = "Rogue Seas"
 align = 1
 
 [node name="StartButton" type="Button" parent="."]

@@ -1,6 +1,6 @@
 extends KinematicBody
 
-signal died
+signal died(past_location)
 
 export var interpolation_rate := 8
 export var rotation_rate := 0.2
@@ -65,6 +65,5 @@ func _physics_process(delta):
 
 
 func process_death():
-	
-	emit_signal("died")
+	emit_signal("died", global_translation)
 	print("Player died...")

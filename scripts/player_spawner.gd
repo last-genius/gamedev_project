@@ -51,6 +51,10 @@ func add_character_model(new_model):
 	var col = child_model.get_node("CollisionShape")
 	child_model.remove_child(col)
 	add_child(col)
+	
+	var boarding_area = child_model.get_node_or_null("BoardingArea")
+	if boarding_area != null and is_instance_valid(boarding_area):
+		boarding_area.setup()
 
 
 func _on_HUD_model_changed(new_model) -> void:

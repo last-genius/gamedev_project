@@ -8,6 +8,12 @@ export var enemy_group: String = "player"
 var health := max_health
 
 
+func board_death():
+	health = 0
+	emit_signal("health_updated", health, max_health)
+	get_parent().process_death(false)
+
+
 func take_hit(area):
 	if area.is_in_group(enemy_group + "_projectiles"):
 		area.get_parent().explode()
@@ -15,7 +21,6 @@ func take_hit(area):
 		print("took ", damage, " damage")
 		
 		health -= damage
+		emit_signal("health_updated", health, max_health)
 		if health <= 0:
 			get_parent().process_death()
-		else:
-			emit_signal("health_updated", health, max_health)
