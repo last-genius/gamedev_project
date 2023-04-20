@@ -11,6 +11,21 @@ var child_model
 func _ready() -> void:
 	# Add the default model
 	add_character_model(selected_model)
+	# warning-ignore:return_value_discarded
+	Events.connect("stat_changed", self, "_on_stat_change")
+	_upgraded_strength(Events.stats.health)
+	
+
+func _on_stat_change(stat_name, value):
+	if stat_name == "health":
+		print("PLAYER STRENGTH stat changed")
+		_upgraded_strength(value)
+
+
+func _upgraded_strength(value):
+	$Health.max_health = value
+	$Health.health = value
+	$Health.emit_signal("health_updated", value, value)
 
 
 func replace_character_model(new_model):
@@ -32,10 +47,6 @@ func add_character_model(new_model):
 	print("The player selected: ", new_model)
 	child_model = ship_models[new_model].instance()
 	add_child(child_model)
-	
-	#var healthbar = child_model.get_node_or_null("HealthBar")
-	#if healthbar != null and is_instance_valid(healthbar):
-	#	child_model.remove_child(healthbar)
 	
 	# Hack around the fact that KinematicBody needs to have
 	# an immediate child as CollisionShape

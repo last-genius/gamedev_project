@@ -37,7 +37,7 @@ func _process(_delta):
 		weapons_manager = get_node_or_null("../Player/WeaponsManager")
 		weapons_manager.shoot("player")
 	elif Input.is_action_pressed("board") and Events.boardable != null:
-		print("Player crew strength: ", Events.stats.crew, " | Enemy crew strength: ", Events.boardable.stats.crew)
+		print("Boarding pressed", Events.boardable, "\n\tPlayer crew strength: ", Events.stats.crew, " | Enemy crew strength: ", Events.boardable.stats.crew)
 		# There is a possibility for both to die if they have equal crew strengths ;)
 		if Events.stats.crew >= Events.boardable.stats.crew:
 			Events.boardable.health.board_death()

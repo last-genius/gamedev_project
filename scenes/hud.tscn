@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://scripts/hud.gd" type="Script" id=1]
 [ext_resource path="res://assets/fonts and themes/smaller_font.tres" type="DynamicFont" id=2]
@@ -56,6 +56,22 @@ bg_color = Color( 0, 0, 0, 0.352941 )
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.596078, 0.286275, 0.211765, 1 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+content_margin_left = 16.0
+content_margin_right = 24.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+bg_color = Color( 0.596078, 0.286275, 0.211765, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.337255, 0.0941176, 0.0352941, 1 )
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -257,11 +273,10 @@ expand_icon = true
 
 [node name="ShopPanel" type="Panel" parent="."]
 pause_mode = 2
-visible = false
 margin_left = 128.0
 margin_top = 128.0
 margin_right = 1792.0
-margin_bottom = 896.0
+margin_bottom = 920.0
 custom_styles/panel = SubResource( 7 )
 script = ExtResource( 20 )
 
@@ -280,7 +295,7 @@ icon = ExtResource( 21 )
 align = 0
 icon_align = 1
 
-[node name="DeathLabel" type="Label" parent="ShopPanel"]
+[node name="Title" type="Label" parent="ShopPanel"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -291,6 +306,236 @@ margin_right = 124.0
 margin_bottom = -285.0
 custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
 text = "SHOP"
+align = 1
+
+[node name="Upgrades" type="Label" parent="ShopPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -520.0
+margin_top = -284.0
+margin_right = -276.0
+margin_bottom = -201.0
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "Upgrades"
+align = 1
+
+[node name="health" type="Label" parent="ShopPanel/Upgrades"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -286.8
+margin_top = 70.5
+margin_right = -42.8
+margin_bottom = 153.5
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "+1 Strength"
+
+[node name="Icon" type="Sprite" parent="ShopPanel/Upgrades/health"]
+position = Vector2( -56, 40 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 14 )
+
+[node name="GoldPrice" type="Label" parent="ShopPanel/Upgrades/health"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 171.0
+margin_top = -41.5
+margin_right = 227.0
+margin_bottom = 41.5
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "99"
+align = 2
+
+[node name="GoldIcon" type="Sprite" parent="ShopPanel/Upgrades/health/GoldPrice"]
+position = Vector2( 97, 38 )
+scale = Vector2( 1.08, 1.08 )
+texture = ExtResource( 17 )
+
+[node name="WoodPrice" type="Label" parent="ShopPanel/Upgrades/health"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 346.8
+margin_top = -41.5
+margin_right = 402.8
+margin_bottom = 41.5
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "99"
+align = 2
+
+[node name="WoodIcon" type="Sprite" parent="ShopPanel/Upgrades/health/WoodPrice"]
+position = Vector2( 97.2, 38 )
+scale = Vector2( 0.595507, 0.562498 )
+texture = ExtResource( 18 )
+
+[node name="BuyButton" type="Button" parent="ShopPanel/Upgrades/health"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 302.0
+margin_top = 38.5
+margin_right = 444.0
+margin_bottom = 112.5
+rect_scale = Vector2( 0.9, 0.9 )
+custom_fonts/font = ExtResource( 2 )
+custom_styles/normal = SubResource( 8 )
+text = "BUY"
+icon_align = 1
+
+[node name="crew" type="Label" parent="ShopPanel/Upgrades"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -290.0
+margin_top = 259.3
+margin_right = -46.0
+margin_bottom = 342.3
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "+1 Crew"
+
+[node name="Icon" type="Sprite" parent="ShopPanel/Upgrades/crew"]
+position = Vector2( -56, 40 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 15 )
+
+[node name="GoldPrice" type="Label" parent="ShopPanel/Upgrades/crew"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 174.0
+margin_top = -38.3
+margin_right = 230.0
+margin_bottom = 44.7
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "99"
+align = 2
+
+[node name="GoldIcon" type="Sprite" parent="ShopPanel/Upgrades/crew/GoldPrice"]
+position = Vector2( 97, 38 )
+scale = Vector2( 1.08, 1.08 )
+texture = ExtResource( 17 )
+
+[node name="WoodPrice" type="Label" parent="ShopPanel/Upgrades/crew"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 349.8
+margin_top = -38.3
+margin_right = 405.8
+margin_bottom = 44.7
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "99"
+align = 2
+
+[node name="WoodIcon" type="Sprite" parent="ShopPanel/Upgrades/crew/WoodPrice"]
+position = Vector2( 97.2, 38 )
+scale = Vector2( 0.595507, 0.562498 )
+texture = ExtResource( 18 )
+
+[node name="BuyButton" type="Button" parent="ShopPanel/Upgrades/crew"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 305.2
+margin_top = 41.7
+margin_right = 447.2
+margin_bottom = 115.7
+rect_scale = Vector2( 0.9, 0.9 )
+custom_fonts/font = ExtResource( 2 )
+custom_styles/normal = SubResource( 8 )
+text = "BUY"
+icon_align = 1
+
+[node name="speed" type="Label" parent="ShopPanel/Upgrades"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -285.3
+margin_top = 456.0
+margin_right = -41.3
+margin_bottom = 539.0
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "+1 Speed"
+
+[node name="Icon" type="Sprite" parent="ShopPanel/Upgrades/speed"]
+position = Vector2( -56, 40 )
+scale = Vector2( 0.989999, 0.989999 )
+texture = ExtResource( 16 )
+
+[node name="GoldPrice" type="Label" parent="ShopPanel/Upgrades/speed"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 169.3
+margin_top = -42.9999
+margin_right = 225.3
+margin_bottom = 40.0001
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "99"
+align = 2
+
+[node name="GoldIcon" type="Sprite" parent="ShopPanel/Upgrades/speed/GoldPrice"]
+position = Vector2( 97, 38 )
+scale = Vector2( 1.08, 1.08 )
+texture = ExtResource( 17 )
+
+[node name="WoodPrice" type="Label" parent="ShopPanel/Upgrades/speed"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 345.1
+margin_top = -42.9999
+margin_right = 401.1
+margin_bottom = 40.0001
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "99"
+align = 2
+
+[node name="WoodIcon" type="Sprite" parent="ShopPanel/Upgrades/speed/WoodPrice"]
+position = Vector2( 97.2, 38 )
+scale = Vector2( 0.595507, 0.562498 )
+texture = ExtResource( 18 )
+
+[node name="BuyButton" type="Button" parent="ShopPanel/Upgrades/speed"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 300.5
+margin_top = 37.0001
+margin_right = 442.5
+margin_bottom = 111.0
+rect_scale = Vector2( 0.9, 0.9 )
+custom_fonts/font = ExtResource( 2 )
+custom_styles/normal = SubResource( 8 )
+text = "BUY"
+icon_align = 1
+
+[node name="Weapons" type="Label" parent="ShopPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 264.0
+margin_top = -272.0
+margin_right = 508.0
+margin_bottom = -189.0
+custom_colors/font_color = Color( 0.384314, 0.156863, 0.101961, 1 )
+text = "Weapons"
 align = 1
 
 [node name="PlayerHealth" type="TextureProgress" parent="."]
@@ -323,17 +568,17 @@ margin_right = 1672.0
 margin_bottom = 96.0
 color = Color( 1, 1, 1, 0.352941 )
 
+[node name="HealthIcon" type="Sprite" parent="."]
+position = Vector2( 438.4, 52.8 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 14 )
+
 [node name="HealthLabel" type="Label" parent="."]
 margin_left = 486.4
 margin_top = 12.8
 margin_right = 537.4
 margin_bottom = 95.8
 text = "24"
-
-[node name="HealthIcon" type="Sprite" parent="."]
-position = Vector2( 438.4, 52.8 )
-scale = Vector2( 0.6, 0.6 )
-texture = ExtResource( 14 )
 
 [node name="CrewLabel" type="Label" parent="."]
 margin_left = 656.0

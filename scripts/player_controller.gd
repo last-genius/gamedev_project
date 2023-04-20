@@ -11,6 +11,7 @@ export var speed := 14
 var velocity := Vector3.ZERO
 onready var camera: Camera = $"%Camera"
 
+
 func _enter_tree():
 	for input in ["move_left", "move_right", "move_forward", "move_back"]:
 		if not InputMap.has_action(input):
@@ -47,6 +48,7 @@ func _physics_process(delta):
 			direction *= shift_speed
 		else:
 			direction *= speed
+		direction *= Events.stats["speed"] / 10
 		
 		velocity.x = direction.x
 		velocity.z = direction.z
@@ -64,6 +66,6 @@ func _physics_process(delta):
 	#print(sim_tex.material.get_shader_param("col_position"))
 
 
-func process_death():
+func process_death(_was_destroyed=true):
 	emit_signal("died", global_translation)
 	print("Player died...")

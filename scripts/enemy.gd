@@ -27,7 +27,7 @@ var stats := {}
 
 func start_pathfinding():
 	health = $Health
-	print("Spawned with health ", stats["health"])
+	print("\tENEMY SPAWN with health ", stats["health"])
 	health.max_health = stats["health"]
 	health.health = stats["health"]
 	set_physics_process(true)
@@ -61,7 +61,7 @@ func _physics_process(delta: float):
 			var random_location = _generate_random_location(Vector2(global_translation.x,global_translation.z), 100)
 			var target_point = NavigationServer.map_get_closest_point(terrain.map, random_location)
 			path = NavigationServer.map_get_path(terrain.map, global_translation, target_point, true)
-			print("started the path to random location ", target_point)
+			print("\tENEMY: started the path to random location ", target_point)
 	elif current_state == STATES.FIGHTING:
 		# Shoot every X frames
 		if _frame_counter == 0:

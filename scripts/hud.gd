@@ -39,7 +39,7 @@ func _ready() -> void:
 	reload_timer.connect("timeout", self, "finish_reload")
 	spawner.connect("died", death_panel, "reveal")
 	# warning-ignore:return_value_discarded
-	Events.connect("stat_changed", self, "on_stats_change")
+	Events.connect("stat_changed", self, "_on_stat_change")
 	# warning-ignore:return_value_discarded
 	Events.connect("board_reveal", self, "board_reveal")
 	
@@ -48,7 +48,7 @@ func _ready() -> void:
 	board_rect.visible = false
 	
 	for stat in Events.stats:
-		on_stats_change(stat, Events.stats[stat], false)
+		_on_stat_change(stat, Events.stats[stat], false)
 
 
 func _process(_delta: float):
@@ -66,7 +66,7 @@ func _process(_delta: float):
 
 
 func update_weapons(weapons: Array, selected_weapon: int):
-	print("updating weapons", weapons)
+	print("WEAPONS_SELECTION updating: ", weapons)
 	for i in weapons.size():
 		var weapon = weapons[i]
 		weapon_selection.add_icon_item(weapon.icon, weapon.name, i)
@@ -93,7 +93,6 @@ func finish_reload():
 
 
 func _on_BoardButton_button_down() -> void:
-	print("BOARD ", Events.boardable)
 	Input.action_press("board")
 	
 
@@ -109,12 +108,20 @@ func board_reveal(show):
 		board_label.visible = false
 
 
-func on_stats_change(stat_name: String, value: int, change_color=true):
+func _on_stat_change(stat_name: String, value: int, change_color=true):
+	var prev_value = int(stats[stat_name].text)
 	stats[stat_name].text = str(value)
+	
 	if change_color:
-		stats_icons[stat_name].modulate = Color.green
-		stats[stat_name].add_color_override("font_color", Color.green)
+		var new_color: Color
+		if value >= prev_value:
+			new_color = Color.green
+		else:
+			new_color = Color.red
+		stats_icons[stat_name].modulate = new_color
+		stats[stat_name].add_color_override("font_color", new_color)
 		yield(get_tree().create_timer(2.0), "timeout")
+
 	stats_icons[stat_name].modulate = Color("#984936")
 	stats[stat_name].add_color_override("font_color", Color("#984936"))
 

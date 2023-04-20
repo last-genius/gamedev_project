@@ -118,7 +118,6 @@ unique_name_in_owner = true
 one_shot = true
 
 [node name="Health" parent="PlayerSpawner" instance=ExtResource( 2 )]
-max_health = 40
 enemy_group = "enemy"
 
 [node name="WaterManager" type="Spatial" parent="PlayerSpawner"]

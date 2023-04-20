@@ -9,13 +9,13 @@ func setup():
 
 func area_entered(area):
 	if area.is_in_group("enemies"):
-		print("enemies entered the boarding area")
+		print("BOARDING AREA: enemies entered")
 		Events.boardable = area.get_parent()
 		Events.emit_signal("board_reveal", true)
 	
 
 func area_exited(area):
 	if area.is_in_group("enemies"):
-		print("enemies exited the boarding area")
+		print("BOARDING AREA: enemies exited")
 		Events.boardable = null
 		Events.emit_signal("board_reveal", false)

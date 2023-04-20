@@ -30,14 +30,12 @@ func death_spawn(past_location):
 
 func spawn(past_location := Vector3.ZERO):
 	var random_location := past_location
-	var random_sign = (MainLoader.random.randi_range(0, 1) * 2)-1
-	print(random_sign)
 	random_location.x += MainLoader.random.randi_range(0, spawn_radius) * ((MainLoader.random.randi_range(0, 1) * 2)-1)
 	random_location.z += MainLoader.random.randi_range(0, spawn_radius) * ((MainLoader.random.randi_range(0, 1) * 2)-1)
 	
 	# Get a legal point on the navmesh closest to the random location
 	var spawn_point = NavigationServer.map_get_closest_point(terrain.map, random_location)
-	print("Spawning at ", random_location, " | ", spawn_point, " | difficulty: ", difficulty)
+	print("ENEMY SPAWN at ", random_location, " | ", spawn_point, " | difficulty: ", difficulty)
 	
 	# TODO: Check if the location is legal
 	# (there are no other enemies or the player in the radius)

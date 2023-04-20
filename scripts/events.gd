@@ -8,8 +8,12 @@ signal board_reveal(show)
 
 
 var boardable: Enemy
-var stats = {"health": 20, "crew": 10, 
-			"speed": 10, "gold": 0, "wood": 0}
+export var upgrade_prices = {"health": [1, 3], "crew": [5, 0],
+							"speed": [5, 2]}
+export var stats = {"health": 20, "crew": 10, 
+			"speed": 10, "gold": 90, "wood": 90}
+export var max_stats = {"health": 99, "crew": 99, 
+			"speed": 30}
 
 func _ready():
 	# warning-ignore:return_value_discarded
