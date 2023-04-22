@@ -19,7 +19,6 @@ radius = 1.5
 height = 4.2
 
 [sub_resource type="SpatialMaterial" id=1]
-resource_name = "wood"
 vertex_color_use_as_albedo = true
 albedo_color = Color( 0.870034, 0.710264, 0.564277, 1 )
 metallic = 0.25
@@ -384,7 +383,7 @@ radius = 2.0
 
 [sub_resource type="CylinderShape" id=20]
 height = 6.0
-radius = 40.0
+radius = 45.0
 
 [node name="Player" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0 )
@@ -402,6 +401,7 @@ mesh = SubResource( 6 )
 
 [node name="cannon_front" type="MeshInstance" parent="model"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43707, -3.61593 )
+visible = false
 mesh = SubResource( 7 )
 
 [node name="cannon_front001" type="MeshInstance" parent="model/cannon_front"]
@@ -410,6 +410,7 @@ mesh = SubResource( 8 )
 
 [node name="cannon_left" type="MeshInstance" parent="model"]
 transform = Transform( -1.19209e-07, 0, 1, 0, 1, 0, -1, 0, -1.19209e-07, -0.760401, 1.2774, -1.68106 )
+visible = false
 mesh = SubResource( 9 )
 
 [node name="cannon_left001" type="MeshInstance" parent="model/cannon_left"]
@@ -434,6 +435,7 @@ mesh = SubResource( 10 )
 
 [node name="cannon_right" type="MeshInstance" parent="model"]
 transform = Transform( -1.19209e-07, 0, -1, 0, 1, 0, 1, 0, -1.19209e-07, 0.760401, 1.2774, -1.68106 )
+visible = false
 mesh = SubResource( 9 )
 
 [node name="cannon_right001" type="MeshInstance" parent="model/cannon_right"]
@@ -501,14 +503,26 @@ script = ExtResource( 5 )
 cannonball_model = ExtResource( 6 )
 new_curve = SubResource( 19 )
 
+[node name="CannonAhead" type="Spatial" parent="WeaponsManager" groups=["weapons"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.733, -3.96175 )
+
 [node name="CannonLeft" type="Spatial" parent="WeaponsManager" groups=["weapons"]]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.12423, 1.73333, -1.68106 )
 
 [node name="CannonRight" type="Spatial" parent="WeaponsManager" groups=["weapons"]]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.124, 1.733, -1.681 )
 
-[node name="CannonAhead" type="Spatial" parent="WeaponsManager" groups=["weapons"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.733, -3.96175 )
+[node name="CannonLeft2" type="Spatial" parent="WeaponsManager" groups=["weapons"]]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.12423, 1.73333, -0.68106 )
+
+[node name="CannonRight2" type="Spatial" parent="WeaponsManager" groups=["weapons"]]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.124, 1.733, -0.681 )
+
+[node name="CannonLeft3" type="Spatial" parent="WeaponsManager" groups=["weapons"]]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.12423, 1.73333, 0.31894 )
+
+[node name="CannonRight3" type="Spatial" parent="WeaponsManager" groups=["weapons"]]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.124, 1.733, 0.319 )
 
 [node name="BoardingArea" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52228, -0.370008 )

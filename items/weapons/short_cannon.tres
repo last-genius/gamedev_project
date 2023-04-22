@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://assets/sprites/cannonMobile.png" type="Texture" id=1]
+[ext_resource path="res://scripts/weapon_stats.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+icon = ExtResource( 1 )
+weapon_name = "short_cannon"
+nice_name = "Short Cannon"
+reload_time = 1.0
+damage = 2.0
+distance = 6.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scripts/enemy_spawner.gd" type="Script" id=1]
 [ext_resource path="res://scenes/health.tscn" type="PackedScene" id=2]
@@ -13,8 +13,6 @@
 [ext_resource path="res://scenes/ui_startscreen.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scripts/nav_setup.gd" type="Script" id=12]
 [ext_resource path="res://materials/bad_sand.tres" type="Material" id=13]
-[ext_resource path="res://items/weapons/medium_cannon.tres" type="Resource" id=14]
-[ext_resource path="res://items/weapons/large_cannon.tres" type="Resource" id=15]
 [ext_resource path="res://scripts/water_manager.gd" type="Script" id=16]
 
 [sub_resource type="SpatialMaterial" id=34]
@@ -111,7 +109,6 @@ selected_model = "Pirate Ship"
 [node name="CombatSystem" type="Spatial" parent="PlayerSpawner"]
 unique_name_in_owner = true
 script = ExtResource( 10 )
-all_weapons = [ ExtResource( 14 ), ExtResource( 15 ) ]
 
 [node name="ReloadTimer" type="Timer" parent="PlayerSpawner/CombatSystem"]
 unique_name_in_owner = true
@@ -136,8 +133,8 @@ script = ExtResource( 4 )
 
 [node name="EnemySpawner" type="Spatial" parent="."]
 script = ExtResource( 1 )
-enemy_number = 3
-spawn_radius = 60
+enemy_number = 4
+spawn_radius = 100
 sail_material = SubResource( 34 )
 
 [node name="Terrain" type="NavigationMeshInstance" parent="."]
@@ -221,5 +218,4 @@ visible = false
 transform = Transform( 0.041057, -0.265157, 0.963331, -0.0182763, 0.963783, 0.26606, -0.99899, -0.0285297, 0.0347239, 0.615074, 7.8207, -8.7733 )
 visible = false
 
-[connection signal="model_changed" from="HUD" to="PlayerSpawner" method="_on_HUD_model_changed"]
 [connection signal="weapon_changed" from="HUD" to="PlayerSpawner/CombatSystem" method="_on_HUD_weapon_changed"]

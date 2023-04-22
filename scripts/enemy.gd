@@ -6,7 +6,8 @@ signal died(past_location)
 onready var reload_timer: SceneTreeTimer
 onready var health: Health = $Health
 export var reload_time := 3.0
-var weapons_manager: Spatial
+var weapons_manager: WeaponsManager
+var default_weapon: PackedScene
 
 var terrain: NavigationMeshInstance
 var speed := 6.0
@@ -27,9 +28,13 @@ var stats := {}
 
 func start_pathfinding():
 	health = $Health
-	print("\tENEMY SPAWN with health ", stats["health"])
+	print("\tENEMY SPAWN with health %s" % [stats["health"]])
 	health.max_health = stats["health"]
 	health.health = stats["health"]
+	
+	weapons_manager = get_node_or_null("WeaponsManager")
+	weapons_manager.change_weapons(default_weapon)
+	
 	set_physics_process(true)
 	circle_point = _generate_random_circle_point(10.0)
 
@@ -48,6 +53,10 @@ func _generate_random_circle_point(radius: float):
 	return random_location
 
 
+func _get_path_to_player():
+	return NavigationServer.map_get_path(terrain.map, global_translation, player_body.global_translation + circle_point, true)
+
+
 func _physics_process(delta: float):
 	var direction := Vector3.ZERO
 	var velocity := delta * speed
@@ -61,12 +70,12 @@ func _physics_process(delta: float):
 			var random_location = _generate_random_location(Vector2(global_translation.x,global_translation.z), 100)
 			var target_point = NavigationServer.map_get_closest_point(terrain.map, random_location)
 			path = NavigationServer.map_get_path(terrain.map, global_translation, target_point, true)
-			print("\tENEMY: started the path to random location ", target_point)
+			print("\tENEMY: started the path to random location %s" % [target_point])
 	elif current_state == STATES.FIGHTING:
 		# Shoot every X frames
 		if _frame_counter == 0:
 			shoot()
-			path = NavigationServer.map_get_path(terrain.map, global_translation, player_body.global_translation + circle_point, true)
+			path = _get_path_to_player()
 		_frame_counter = wrapi(_frame_counter + 1, 0, FRAMES_BETWEEN_UPDATES)
 	
 	if path.size() > 0:
@@ -93,10 +102,13 @@ func _physics_process(delta: float):
 # 2. `drowning_animation` - drowning below the surface
 # 3. `complete_death` - remove the enemy node
 func process_death(was_destroyed=true):
-	$HealthBar.visible = false
 	current_state = STATES.DYING
+	
 	emit_signal("died", global_translation)
 	Events.emit_signal("enemy_killed", stats, was_destroyed)
+	
+	weapons_manager.visible = false
+	$HealthBar.visible = false
 	
 	if was_destroyed:
 		# Play the death animation
@@ -131,6 +143,4 @@ func player_detected(body: Node):
 func shoot():
 	if reload_timer == null or reload_timer.get_time_left() <= 0.0:
 		reload_timer = get_tree().create_timer(reload_time)
-			
-		weapons_manager = get_node_or_null("WeaponsManager")
 		weapons_manager.shoot("enemy")

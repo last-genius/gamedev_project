@@ -1,7 +1,8 @@
 class_name Weapon
-extends Resource
+extends Spatial
 
 
-export(Texture) var icon
-export(String) var name
-export(PackedScene) var prefab
+export(Resource) var stats
+
+func _to_string():
+	return "Weapon<%s>" % [stats.weapon_name]

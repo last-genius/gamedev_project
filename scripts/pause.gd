@@ -1,5 +1,8 @@
 extends Panel
 
+onready var shop_panel: Panel = $"../ShopPanel"
+
+
 func _process(_delta: float):
 	if Input.is_action_just_pressed("pause"):
 		if get_tree().paused:
@@ -9,6 +12,7 @@ func _process(_delta: float):
 
 
 func _on_PauseButton_button_down() -> void:
+	shop_panel.visible = false
 	visible = true
 	get_tree().paused = true
 

@@ -3,6 +3,7 @@ extends Spatial
 var ship_model = preload("res://assets/ship_models/PirateShip.tscn")
 var enemy_script = preload("res://scripts/enemy.gd")
 var area_script = preload("res://scripts/new_area.gd")
+var long_cannon = preload("res://items/weapons/long_cannon.tscn")
 
 export(int) var enemy_number = 2
 export(int) var spawn_radius
@@ -30,12 +31,12 @@ func death_spawn(past_location):
 
 func spawn(past_location := Vector3.ZERO):
 	var random_location := past_location
-	random_location.x += MainLoader.random.randi_range(0, spawn_radius) * ((MainLoader.random.randi_range(0, 1) * 2)-1)
-	random_location.z += MainLoader.random.randi_range(0, spawn_radius) * ((MainLoader.random.randi_range(0, 1) * 2)-1)
+	random_location.x += MainLoader.random.randi_range(50, spawn_radius) * ((MainLoader.random.randi_range(0, 1) * 2)-1)
+	random_location.z += MainLoader.random.randi_range(50, spawn_radius) * ((MainLoader.random.randi_range(0, 1) * 2)-1)
 	
 	# Get a legal point on the navmesh closest to the random location
 	var spawn_point = NavigationServer.map_get_closest_point(terrain.map, random_location)
-	print("ENEMY SPAWN at ", random_location, " | ", spawn_point, " | difficulty: ", difficulty)
+	print("ENEMY SPAWN at %s | %s | difficulty: %s" % [random_location, spawn_point, difficulty])
 	
 	# TODO: Check if the location is legal
 	# (there are no other enemies or the player in the radius)
@@ -44,7 +45,7 @@ func spawn(past_location := Vector3.ZERO):
 
 
 func spawn_model(model: PackedScene, coords: Vector3):
-	var new_model = model.instance()
+	var new_model: Spatial = model.instance()
 	add_child(new_model)
 	
 	# Set up the enemy parameters
@@ -67,6 +68,7 @@ func spawn_model(model: PackedScene, coords: Vector3):
 	var stats = {"health": 5 + difficulty, "crew": 4 + difficulty,
 			"speed": 10 + (difficulty * 0.5), "gold": difficulty, "wood": difficulty}
 	new_model.stats = stats.duplicate(true)
+	new_model.default_weapon = long_cannon
 	new_model.start_pathfinding()
 	
 	# Add an area to detect collisions

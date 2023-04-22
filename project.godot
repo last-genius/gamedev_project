@@ -19,15 +19,27 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/health.gd"
 }, {
-"base": "Resource",
+"base": "Spatial",
 "class": "Weapon",
 "language": "GDScript",
 "path": "res://scripts/weapon.gd"
+}, {
+"base": "Resource",
+"class": "WeaponStats",
+"language": "GDScript",
+"path": "res://scripts/weapon_stats.gd"
+}, {
+"base": "Spatial",
+"class": "WeaponsManager",
+"language": "GDScript",
+"path": "res://scripts/weapons_manager.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
 "Health": "",
-"Weapon": ""
+"Weapon": "",
+"WeaponStats": "",
+"WeaponsManager": ""
 }
 
 [application]

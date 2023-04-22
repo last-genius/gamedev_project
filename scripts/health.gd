@@ -18,7 +18,7 @@ func take_hit(area):
 	if area.is_in_group(enemy_group + "_projectiles"):
 		area.get_parent().explode()
 		var damage = area.get_parent().damage
-		print("took ", damage, " damage out of ", max_health, " from ", enemy_group)
+		print("took %s damage out of %s from %s" % [damage, max_health, enemy_group])
 		
 		health -= damage
 		emit_signal("health_updated", health, max_health)

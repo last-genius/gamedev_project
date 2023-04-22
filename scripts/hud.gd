@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-signal model_changed
 signal weapon_changed
 
 onready var spawner = $"../PlayerSpawner"
@@ -34,6 +33,7 @@ var fire_button_disabled = false
 
 
 func _ready() -> void:
+	print("HUD READY")
 	combat_sys.connect("weapons_updated", self, "update_weapons")
 	# warning-ignore:return_value_discarded
 	reload_timer.connect("timeout", self, "finish_reload")
@@ -52,6 +52,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float):
+	# Enable fire button if the timer has elapsed, update
+	# the progress circle otherwise
 	var value: float
 	if reload_timer.is_stopped():
 		fire_button_disabled = false
@@ -66,17 +68,14 @@ func _process(_delta: float):
 
 
 func update_weapons(weapons: Array, selected_weapon: int):
-	print("WEAPONS_SELECTION updating: ", weapons)
+	print("WEAPONS_SELECTION updating: ", selected_weapon, " | ", weapons)
+	weapon_selection.clear()
 	for i in weapons.size():
-		var weapon = weapons[i]
-		weapon_selection.add_icon_item(weapon.icon, weapon.name, i)
+		var weapon: WeaponStats = weapons[i][0]
+		weapon_selection.add_icon_item(weapon.icon, weapon.nice_name, i)
 		
 		if i == selected_weapon:
 			weapon_selection.select(i)
-
-
-func _on_OptionButton_item_selected(index: int) -> void:
-	emit_signal("model_changed", spawner.ship_models.keys()[index])
 
 
 func _on_WeaponSelection_item_selected(index: int) -> void:
@@ -109,19 +108,20 @@ func board_reveal(show):
 
 
 func _on_stat_change(stat_name: String, value: int, change_color=true):
-	var prev_value = int(stats[stat_name].text)
-	stats[stat_name].text = str(value)
-	
-	if change_color:
-		var new_color: Color
-		if value >= prev_value:
-			new_color = Color.green
-		else:
-			new_color = Color.red
-		stats_icons[stat_name].modulate = new_color
-		stats[stat_name].add_color_override("font_color", new_color)
-		yield(get_tree().create_timer(2.0), "timeout")
+	if stat_name in stats:
+		var prev_value = int(stats[stat_name].text)
+		stats[stat_name].text = str(value)
+		
+		if change_color:
+			var new_color: Color
+			if value >= prev_value:
+				new_color = Color.green
+			else:
+				new_color = Color.red
+			stats_icons[stat_name].modulate = new_color
+			stats[stat_name].add_color_override("font_color", new_color)
+			yield(get_tree().create_timer(2.0), "timeout")
 
-	stats_icons[stat_name].modulate = Color("#984936")
-	stats[stat_name].add_color_override("font_color", Color("#984936"))
+		stats_icons[stat_name].modulate = Color("#984936")
+		stats[stat_name].add_color_override("font_color", Color("#984936"))
 

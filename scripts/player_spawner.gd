@@ -44,7 +44,7 @@ func replace_character_model(new_model):
 
 
 func add_character_model(new_model):
-	print("The player selected: ", new_model)
+	print("The player selected: %s" % [new_model])
 	child_model = ship_models[new_model].instance()
 	add_child(child_model)
 	
@@ -67,12 +67,6 @@ func add_character_model(new_model):
 	if boarding_area != null and is_instance_valid(boarding_area):
 		boarding_area.setup()
 
-
-func _on_HUD_model_changed(new_model) -> void:
-	selected_model = new_model
-	replace_character_model(new_model)
-	
-	
 
 # A function to enable selection of the current model
 # from the dictionary in the inspector
